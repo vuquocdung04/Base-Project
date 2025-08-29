@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : Singleton<GameController>
 {
-    // Start is called before the first frame update
-    void Start()
+    public StartLoading startLoading;
+    public MusicController musicController;
+    public UseProfile useProfile;
+    public DataContains dataContains;
+    public AdmobController admobController;
+    public EffectChangeScene effectChangeScene;
+    protected override void OnAwake()
     {
-        
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Init()
     {
-        
+        Application.targetFrameRate = 60;
+        startLoading.Init();
+        admobController.Init();
+        dataContains.Init();
+        musicController.Init();
     }
 }
