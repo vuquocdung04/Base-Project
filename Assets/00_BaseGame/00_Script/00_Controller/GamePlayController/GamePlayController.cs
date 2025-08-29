@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class GamePlayController : MonoBehaviour
+public class GamePlayController : Singleton<GamePlayController>
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameScene gameScene;
+    protected override void OnAwake()
     {
-        
+        base.OnAwake();
+        m_DontDestroyOnLoad = false;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Init()
     {
-        
+        gameScene.Init();
     }
 }
