@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,7 +7,10 @@ using UnityEngine.UI;
 public class EffectChangeScene : MonoBehaviour
 {
     [Header("Settings")]
-    public float duration = 0.5f;
+    [Range(0.3f,2f)]
+    public float duration;
+    [InfoBox("Mau nen khi fade"), Space(5)]
+    [ColorPalette]
     public Color fadeColor = Color.black;
     
     private static bool isTransitioning;
@@ -53,7 +57,7 @@ public class EffectChangeScene : MonoBehaviour
     }
 
     // Static method
-    public void FadeToScene(string sceneName, float duration = 0.5f)
+    public void FadeToScene(string sceneName)
     {
         ChangeScene(sceneName);
     }

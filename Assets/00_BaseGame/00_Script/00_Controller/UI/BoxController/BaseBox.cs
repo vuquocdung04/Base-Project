@@ -1,18 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class BaseBox : MonoBehaviour
+public abstract class BaseBox : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected RectTransform mainPanel;
+    [SerializeField] protected bool isAnim = true;
+
+    protected virtual void OnEnable()
     {
-        
+        if(isAnim)
+            mainPanel.localScale = Vector3.zero;
+        DoAppear();
+        OnStart();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void DoAppear()
     {
-        
+        // Hieu ung xuat hien
+    }
+
+    protected virtual void OnStart()
+    {
+        // Code chay bat dau hien thi
+    }
+
+
+    public virtual void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public virtual void Close()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class WinBox : MonoBehaviour
+using UnityEngine;
+using UnityEngine.UI;
+
+public class WinBox : BaseBox
 {
-    // Start is called before the first frame update
-    void Start()
+    private static WinBox instance;
+    public static WinBox SetUp()
     {
+        if (instance == null)
+        {
+            instance = Instantiate(Resources.Load<WinBox>(PathPrefabs.WIN_BOX));
+            instance.Init();
+        }
+        instance.InitState();
+        return instance;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public Button btnClose;
+    private void Init()
     {
-        
+        // Khoi tao 1 lan
+        btnClose.onClick.AddListener(Close);
+    }
+
+    private void InitState()
+    {
+        // Pooling sau lan thu nhat
     }
 }
