@@ -8,7 +8,9 @@ public class GameController : Singleton<GameController>
     public UseProfile useProfile;
     public DataContains dataContains;
     public AdmobController admobController;
-    public EffectChangeScene effectChangeScene;
+    public EffectController effectController;
+    public LocalizationController localizationController;
+    public HeartGame heartGame;
     protected override void OnAwake()
     {
         Init();
