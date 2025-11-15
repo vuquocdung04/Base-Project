@@ -11,7 +11,7 @@ public class DataContains : MonoBehaviour
     private string jsonName = "PlayerData";
     public void Init()
     {
-        LoadData();
+        //LoadData();
     }
 
     private void LoadData()
