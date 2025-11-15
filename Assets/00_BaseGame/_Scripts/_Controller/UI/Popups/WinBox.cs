@@ -2,30 +2,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WinBox : BaseBox
+public class WinBox : BoxSingleton<WinBox>
 {
-    private static WinBox instance;
-    public static WinBox SetUp()
+    public static WinBox Setup()
     {
-        if (instance == null)
-        {
-            instance = Instantiate(Resources.Load<WinBox>(PathPrefabs.WIN_BOX));
-            instance.Init();
-        }
-        instance.InitState();
-        return instance;
+        return Path(PathPrefabs.WIN_BOX);
+    }
+    protected override void Init()
+    {
         
     }
 
-    public Button btnClose;
-    private void Init()
+    protected override void InitState()
     {
-        // Khoi tao 1 lan
-        btnClose.onClick.AddListener(Close);
+        RefreshLocalization();
     }
 
-    private void InitState()
+    protected override void RefreshLocalization()
     {
-        // Pooling sau lan thu nhat
+        base.RefreshLocalization();
+        // Viet o day
     }
+    
 }

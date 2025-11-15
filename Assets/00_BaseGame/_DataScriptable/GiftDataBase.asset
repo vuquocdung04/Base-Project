@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f6ebd886301b0648bcce06728651ad6, type: 3}
-  m_Name: LocalizationData
+  m_Script: {fileID: 11500000, guid: 276bafa44133c364f947fe6404a8eea1, type: 3}
+  m_Name: GiftDataBase
   m_EditorClassIdentifier: 
-  entries: []
+  lsGiftData:
+  - type: 0
+    giftData:
+      giftSprite: {fileID: 0}

@@ -68,11 +68,11 @@ public class LocalizationImporter
     
     private static void ImportCsv(string csvContent)
     {
-        LocalizationData data = AssetDatabase.LoadAssetAtPath<LocalizationData>(soPath);
-        if (data == null)
+        LocalizationDataBase dataBase = AssetDatabase.LoadAssetAtPath<LocalizationDataBase>(soPath);
+        if (dataBase == null)
         {
-            data = ScriptableObject.CreateInstance<LocalizationData>();
-            AssetDatabase.CreateAsset(data, soPath);
+            dataBase = ScriptableObject.CreateInstance<LocalizationDataBase>();
+            AssetDatabase.CreateAsset(dataBase, soPath);
         }
 
         // Dùng List để thêm dữ liệu, hiệu quả hơn
@@ -108,10 +108,10 @@ public class LocalizationImporter
             importedCount++;
         }
         
-        data.entries.Clear();
-        data.entries.AddRange(newEntries);
+        dataBase.entries.Clear();
+        dataBase.entries.AddRange(newEntries);
         
-        EditorUtility.SetDirty(data);
+        EditorUtility.SetDirty(dataBase);
         AssetDatabase.SaveAssets();
         
         Debug.Log($"✅ Import thành công {importedCount} mục!");

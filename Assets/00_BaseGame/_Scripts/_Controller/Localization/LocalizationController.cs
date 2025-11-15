@@ -19,7 +19,7 @@ public class LocalizationController : MonoBehaviour
     private Language currentLanguage;
     public void Init()
     {
-        var localizationData = GameController.Instance.dataContains.localizationData;
+        var localizationData = GameController.Instance.dataContains.localizationDataBase;
         currentLanguage = GameController.Instance.dataContains.DataPlayer.CurrentLanguage;
         
         var dataTable = localizationData.entries;

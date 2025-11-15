@@ -10,9 +10,7 @@ public class HeartGame : MonoBehaviour
     private const double RefillTimeSeconds = RefillTimeMinutes * 60;
     [Header("Debug")] [SerializeField] private double timeToNextHeart;
     [SerializeField] private string debugUnlimitedEnd;
-
     public double GetTimeToNextHeart() => timeToNextHeart;
-    public TimeSpan GetTimeToUnlimitedEnd() => timeToUnlimitedEnd;
     
     private CancellationTokenSource cts;
     private TimeSpan timeToUnlimitedEnd;
@@ -58,9 +56,10 @@ public class HeartGame : MonoBehaviour
     /// </summary>
     private void UpdateTimers()
     {
+        DateTime currentTime = TimeManager.GetCurrentTime();
         if (UseProfile.IsUnlimitedHeart)
         {
-            timeToUnlimitedEnd = UseProfile.TimeUnlimitedHeart - DateTime.Now;
+            timeToUnlimitedEnd = UseProfile.TimeUnlimitedHeart - currentTime;
             debugUnlimitedEnd =
                 $"{timeToUnlimitedEnd.Hours:D2}:{timeToUnlimitedEnd.Minutes:D2}:{timeToUnlimitedEnd.Seconds:D2}"; // Format HH:MM:SS
         }
@@ -74,7 +73,7 @@ public class HeartGame : MonoBehaviour
             return;
         }
 
-        TimeSpan timeSinceLastEvent = DateTime.Now - UseProfile.TimeLastOverHeart;
+        TimeSpan timeSinceLastEvent = currentTime - UseProfile.TimeLastOverHeart;
         timeToNextHeart = Math.Max(0, RefillTimeSeconds - timeSinceLastEvent.TotalSeconds);
     }
 
@@ -82,7 +81,9 @@ public class HeartGame : MonoBehaviour
     {
         if (!UseProfile.IsUnlimitedHeart) return;
 
-        TimeSpan timeRemaining = UseProfile.TimeUnlimitedHeart - DateTime.Now;
+        DateTime currentTime = TimeManager.GetCurrentTime();
+        
+        TimeSpan timeRemaining = UseProfile.TimeUnlimitedHeart - currentTime;
         if (timeRemaining.TotalSeconds <= 0)
         {
             UseProfile.IsUnlimitedHeart = false;
@@ -93,7 +94,8 @@ public class HeartGame : MonoBehaviour
     {
         if (UseProfile.Heart >= maxHearts) return;
 
-        TimeSpan timePassed = DateTime.Now - UseProfile.TimeLastOverHeart;
+        DateTime currentTime = TimeManager.GetCurrentTime();
+        TimeSpan timePassed = currentTime- UseProfile.TimeLastOverHeart;
 
         if (!isOfflineCheck && timePassed.TotalSeconds < RefillTimeSeconds) return;
 
@@ -131,7 +133,7 @@ public class HeartGame : MonoBehaviour
             UseProfile.Heart -= 1;
 
             if (wasAtMax)
-                UseProfile.TimeLastOverHeart = DateTime.Now;
+                UseProfile.TimeLastOverHeart = TimeManager.GetCurrentTime();
 
             return true;
         }
@@ -142,6 +144,7 @@ public class HeartGame : MonoBehaviour
 
     public void AddUnlimitedHeart(int minutes)
     {
+        DateTime currentTime = TimeManager.GetCurrentTime();
         DateTime newEndTime;
         if (UseProfile.IsUnlimitedHeart)
         {
@@ -149,7 +152,7 @@ public class HeartGame : MonoBehaviour
         }
         else
         {
-            newEndTime = DateTime.Now.AddMinutes(minutes);
+            newEndTime = currentTime.AddMinutes(minutes);
         }
 
         UseProfile.IsUnlimitedHeart = true;

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConsumableBox : MonoBehaviour
+public class HeartBox : MonoBehaviour
 {
     [Header("Heart UI")]
     [SerializeField] private TextMeshProUGUI txtHeart;

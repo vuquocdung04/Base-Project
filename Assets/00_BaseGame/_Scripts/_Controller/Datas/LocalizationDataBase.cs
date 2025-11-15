@@ -10,7 +10,7 @@ public class TranslationEntry
 
 
 [CreateAssetMenu(fileName = "LocalizationData", menuName = "DATA/Localization", order = 0)]
-public class LocalizationData : ScriptableObject
+public class LocalizationDataBase : ScriptableObject
 {
     public List<TranslationEntry> entries = new List<TranslationEntry>();
 }
