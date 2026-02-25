@@ -15,13 +15,7 @@ public class WinBox : BoxSingleton<WinBox>
 
     protected override void InitState()
     {
-        RefreshLocalization();
-    }
-
-    protected override void RefreshLocalization()
-    {
-        base.RefreshLocalization();
-        // Viet o day
+       
     }
     
 }

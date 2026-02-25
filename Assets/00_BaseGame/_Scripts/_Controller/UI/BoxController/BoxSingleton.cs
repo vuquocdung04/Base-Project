@@ -3,7 +3,6 @@ using UnityEngine;
 public abstract class BoxSingleton<T> : BaseBox where T : BoxSingleton<T>
 {
     private static T instance;
-    private DataPlayer dataPlayer;
     public static T Path(string prefabPath)
     {
         if (instance == null)
@@ -28,12 +27,6 @@ public abstract class BoxSingleton<T> : BaseBox where T : BoxSingleton<T>
 
     private void InitData()
     {
-        dataPlayer = GameController.Instance.dataContains.DataPlayer;
-    }
-    
-    // goi o initState
-    protected virtual void RefreshLocalization()
-    {
-        if (!dataPlayer.IsLanguageChanged) return;
+        
     }
 }

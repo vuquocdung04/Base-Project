@@ -53,7 +53,7 @@ public class LocalizedText : MonoBehaviour
     {
         if (txt != null)
             dynamicSuffix = txt;
-        return GameController.Instance.localizationController.GetString(localizeKey) + dynamicSuffix;
+        return GameManager.Instance.localizationManager.GetString(localizeKey) + dynamicSuffix;
     }
     
     public void SetKeyOnEditor(string key) => localizeKey = key;

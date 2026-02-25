@@ -18,3 +18,9 @@ MonoBehaviour:
     minPitch: 0.9
     maxPitch: 1.1
     countLimit: 5
+  - enumKey: 50
+    variants:
+    - {fileID: 8300000, guid: 50745de1a97e9144a9d756ba0ea81804, type: 3}
+    minPitch: 0.9
+    maxPitch: 1.1
+    countLimit: 5

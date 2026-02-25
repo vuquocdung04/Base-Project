@@ -17,7 +17,7 @@ public class HeartBox : MonoBehaviour
     [SerializeField] private string fullText = "Full";
     [SerializeField] private string infiniteText = "Infinite";
     
-    private HeartGame heartGame;
+    private LivesManager livesManager;
     private string lastDisplayedStatus = "";
     private int lastDisplayedAmount = -1;
     private bool lastIsUnlimited;
@@ -29,7 +29,7 @@ public class HeartBox : MonoBehaviour
         cts?.Cancel();
         cts?.Dispose();
         cts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
-        heartGame = GameController.Instance.heartGame;
+        livesManager = GameManager.Instance.livesManager;
         
         RefreshHeartUI();
         HeartUIUpdateLoop(cts.Token).Forget();
@@ -82,13 +82,13 @@ public class HeartBox : MonoBehaviour
         {
             newStatusText = infiniteText;
         }
-        else if (currentHeart >= heartGame.maxHearts)
+        else if (currentHeart >= livesManager.maxHearts)
         {
             newStatusText = fullText;
         }
         else
         {
-            double refillTime = heartGame.GetTimeToNextHeart();
+            double refillTime = livesManager.GetTimeToNextHeart();
             TimeSpan ts = TimeSpan.FromSeconds(refillTime);
             newStatusText = (refillTime > 0)
                 ? $"{ts.Minutes:D2}:{ts.Seconds:D2}"

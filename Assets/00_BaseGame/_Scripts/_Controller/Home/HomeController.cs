@@ -7,6 +7,7 @@ public class HomeController : Singleton<HomeController>
     {
         base.OnAwake();
         m_DontDestroyOnLoad = false;
+        Init();
     }
 
     private void Init()
