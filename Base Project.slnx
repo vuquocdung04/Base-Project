@@ -1,0 +1,10 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="ACTk.Editor.csproj" />
+  <Project Path="ACTk.Runtime.csproj" />
+  <Project Path="ACTk.Examples.Genuine.Runtime.csproj" />
+  <Project Path="ACTk.Examples.Runtime.csproj" />
+  <Project Path="Sirenix.OdinInspector.Modules.Unity.Addressables.csproj" />
+  <Project Path="GoogleMobileAds.Editor.csproj" />
+  <Project Path="ACTk.Examples.Genuine.Editor.csproj" />
+</Solution>
