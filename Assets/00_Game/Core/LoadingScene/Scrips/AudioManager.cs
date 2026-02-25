@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
 
     public void Init()
     {
-        audioDataBase = GameManager.Instance.dataContainer.audioData;
+        audioDataBase = GameManager.Instance.dataRepo.audioData;
         BuildAudioLookup();
         SetInitVolumes();
         if (UseProfile.HasCompletedLevelTutorial)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public DataContainer dataContainer;
+    public DataRepo dataRepo;
     public AdmobManager admobManager;
     public FeedBackManager feedBackManager;
     public AudioManager audioManager;
@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager>
     private void Init()
     {
         Application.targetFrameRate = 60;
-        dataContainer.Init();
+        dataRepo.Init();
         admobManager.Init();
         
         audioManager.Init();
