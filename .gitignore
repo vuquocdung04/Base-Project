@@ -102,3 +102,7 @@ InitTestScene*.unity*
 
 # JetBrains IDE (Rider, IntelliJ...)
 .idea/
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/settings.json
+Base Project.slnx

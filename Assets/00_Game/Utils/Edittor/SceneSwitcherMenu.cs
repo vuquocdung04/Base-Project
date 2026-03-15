@@ -13,10 +13,10 @@ public class SceneSwitcherMenu
         OpenScene(SCENE_FOLDER_PATH + "LoadingScene.unity");
     }
 
-    [MenuItem("Open Scene/Home Scene", priority = 2)]
+    [MenuItem("Open Scene/Lobby Scene", priority = 2)]
     static void OpenScene1()
     {
-        OpenScene(SCENE_FOLDER_PATH + "HomeScene.unity");
+        OpenScene(SCENE_FOLDER_PATH + "LobbyScene.unity");
     }
 
     [MenuItem("Open Scene/Game Play", priority = 3)]

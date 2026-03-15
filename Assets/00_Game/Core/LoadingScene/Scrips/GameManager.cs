@@ -1,11 +1,11 @@
 
+using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
     public DataRepo dataRepo;
-    public AdmobManager admobManager;
-    public FeedBackManager feedBackManager;
+    public FXManager fxManager;
     public AudioManager audioManager;
     public LocalizationManager localizationManager;
     public LivesManager livesManager;
@@ -18,12 +18,21 @@ public class GameManager : Singleton<GameManager>
     private void Init()
     {
         Application.targetFrameRate = 60;
-        dataRepo.Init();
-        admobManager.Init();
-        
-        audioManager.Init();
-        livesManager.Init();
-        
+        fxManager.Init();
+        // dataRepo.Init();
+        //
+        // audioManager.Init();
+        // livesManager.Init();
         //Init final
+    }
+
+    public bool isSkipOutPhase;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.LogError("ewqweq");
+            fxManager.LoadSceneWithIrisWipe(SceneName.LOBBY_SCENE, isSkipOutPhase);
+        }
     }
 }

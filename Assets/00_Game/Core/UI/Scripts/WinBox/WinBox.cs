@@ -2,20 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WinBox : BoxSingleton<WinBox>
+public class WinBox : BaseBox<WinBox>
 {
-    public static WinBox Setup()
-    {
-        return Path(PathPrefabs.WIN_BOX);
-    }
     protected override void Init()
     {
-        
+        throw new System.NotImplementedException();
     }
 
     protected override void InitState()
     {
-       
+        throw new System.NotImplementedException();
     }
-    
 }

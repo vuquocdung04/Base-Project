@@ -14,8 +14,8 @@ public class AudioManager : MonoBehaviour
         audioDataBase = GameManager.Instance.dataRepo.audioData;
         BuildAudioLookup();
         SetInitVolumes();
-        if (UseProfile.HasCompletedLevelTutorial)
-            PlayMusic(AudioKeyType.BGMHome);
+        // if (UseProfile.HasCompletedLevelTutorial)
+        //     PlayMusic(AudioKeyType.BGMHome);
     }
 
     private void BuildAudioLookup()
