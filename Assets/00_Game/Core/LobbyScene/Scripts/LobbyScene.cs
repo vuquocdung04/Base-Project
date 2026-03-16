@@ -14,5 +14,15 @@ public class LobbyScene : MonoBehaviour
         {
             box.Show();
         });
+        ShopBox.Setup(canvasHolderNav,box =>
+        {
+            box.Show();
+            box.Close();
+        });
+        RankBox.Setup(canvasHolderNav,box =>
+        {
+            box.Show();
+            box.Close();
+        });
     }
 }

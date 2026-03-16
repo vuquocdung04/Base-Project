@@ -55,6 +55,6 @@ public class NavButton : MonoBehaviour
 public enum ENavType
 {
     Shop = 0,
-    Home = 1,
-    Skin = 2,
+    Lobby = 1,
+    Rank = 2,
 }

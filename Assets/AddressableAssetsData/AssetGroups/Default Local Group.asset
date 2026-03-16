@@ -26,7 +26,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: daef24bbacefc43f7a9459fd822fb763
-    m_Address: Assets/00_Game/PopupPrefabs/RankingBox.prefab
+    m_Address: Assets/00_Game/PopupPrefabs/RankBox.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -130,14 +130,14 @@ public class PathPrefabs
     private const string DEFAULT_PATH = "Assets/00_Game/PopupPrefabs/";
     public const string SETTINGS_PANEL = DEFAULT_PATH + "SettingsPanel.prefab";
 
-    public const string SHOP_SKIN_BOX = DEFAULT_PATH + "ShopSkinBox.prefab";
-
     public const string SHOP_BOX = DEFAULT_PATH + "ShopBox.prefab";
+    public const string RANK_BOX = DEFAULT_PATH + "RankBox.prefab";
+
+    public const string LOBBY_BOX = DEFAULT_PATH + "LobbyBox.prefab";
 
     public const string RESTORE_HEART_BOX = DEFAULT_PATH + "RestoreHeartBox.prefab";
     public const string REMOVE_ADS_BOX = DEFAULT_PATH + "RemoveAdsBox.prefab";
 
-    public const string LOBBY_BOX = DEFAULT_PATH + "LobbyBox.prefab";
     public const string WHEEL_SPIN_BOX = DEFAULT_PATH + "WheelSpinBox.prefab";
 
     public const string QUIT_LEVEL_BOX = DEFAULT_PATH + "QuitLevelBox.prefab";

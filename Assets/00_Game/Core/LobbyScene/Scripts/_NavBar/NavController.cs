@@ -26,7 +26,7 @@ public class NavController : MonoBehaviour
                 }
             });
         }
-        InitNavButtonStateWith(ENavType.Home);
+        InitNavButtonStateWith(ENavType.Lobby);
     }
 
     private void InitSize()
@@ -82,38 +82,37 @@ public class NavController : MonoBehaviour
     }
     private void OpenCurrentBox(ENavType type, bool slideInFromLeft)
     {
-        // var heartHolder = HomeController.Instance.lobbyScene.consumableBox;
-        // switch (type)
-        // {
-        //     case ENavType.Shop:
-        //         //ShopBox.Setup(box => box.ShowSliding(slideInFromLeft));
-        //         heartHolder.EnableHeartHolder(false);
-        //         break;
-        //     case ENavType.Home:
-        //         //HomeBox.Setup(box => box.ShowSliding(slideInFromLeft));
-        //         heartHolder.EnableHeartHolder(true);
-        //         break;
-        //     case ENavType.Skin:
-        //         //ShopSkinBox.Setup(box => box.ShowSliding(slideInFromLeft));
-        //         heartHolder.EnableHeartHolder(true);
-        //         break;
-        // }
+        //var heartHolder = HomeController.Instance.lobbyScene.consumableBox;
+        switch (type)
+        {
+            case ENavType.Shop:
+                ShopBox.Instance.ShowSliding(slideInFromLeft);
+                //heartHolder.EnableHeartHolder(false);
+                break;
+            case ENavType.Lobby:
+                LobbyBox.Instance.ShowSliding(slideInFromLeft);
+                //heartHolder.EnableHeartHolder(true);
+                break;
+            case ENavType.Rank:
+                RankBox.Instance.ShowSliding(slideInFromLeft);
+                //heartHolder.EnableHeartHolder(true);
+                break;
+        }
     }
     private void ClosePrevBox(ENavType type, bool slideOutToLeft)
     {
-        // switch (type)
-        // {
-        //     case ENavType.Shop:
-        //         if (ShopBox.Instance != null)
-        //             ShopBox.Instance.CloseSliding(slideOutToLeft);
-        //         break;
-        //     case ENavType.Home:
-        //         if (HomeBox.Instance != null) HomeBox.Instance.CloseSliding(slideOutToLeft);
-        //         break;
-        //     case ENavType.Skin:
-        //         if (ShopSkinBox.Instance != null) ShopSkinBox.Instance.CloseSliding(slideOutToLeft);
-        //         break;
-        // }
+        switch (type)
+        {
+            case ENavType.Shop:
+                if (ShopBox.Instance != null) ShopBox.Instance.CloseSliding(slideOutToLeft);
+                break;
+            case ENavType.Lobby:
+                if (LobbyBox.Instance != null) LobbyBox.Instance.CloseSliding(slideOutToLeft);
+                break;
+            case ENavType.Rank:
+                if (RankBox.Instance != null) RankBox.Instance.CloseSliding(slideOutToLeft);
+                break;
+        }
     }
 
     [ContextMenu("Setup Nav button")]
