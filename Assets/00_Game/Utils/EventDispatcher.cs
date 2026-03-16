@@ -179,7 +179,10 @@ namespace EventDispatcher
 
         public static void RemoveListener(this MonoBehaviour listener, EventID eventID, Action<object> callback)
         {
-            EventDispatcher.Instance.RemoveListener(eventID, callback);
+            if (EventDispatcher.HasInstance()) 
+            {
+                EventDispatcher.Instance.RemoveListener(eventID, callback);
+            }
         }
     }
     #endregion

@@ -7,6 +7,8 @@ public class DataRepo : MonoBehaviour
     
     public LocalizationDataBase localizationDataBase;
     public AudioDataBase audioData;
+
+    public FireBaseConfigSO fireBaseConfigSO;
     public void Init()
     {
         Instance = this;

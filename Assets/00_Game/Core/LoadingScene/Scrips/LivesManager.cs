@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class LivesManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+
     [Header("Heart Settings")] public int maxHearts = 5;
     private const int RefillTimeMinutes = 30;
     private const double RefillTimeSeconds = RefillTimeMinutes * 60;
-    [Header("Debug")] [SerializeField] private double timeToNextHeart;
+    [Header("Debug")][SerializeField] private double timeToNextHeart;
     [SerializeField] private string debugUnlimitedEnd;
     public double GetTimeToNextHeart() => timeToNextHeart;
-    
+
     private CancellationTokenSource cts;
     private TimeSpan timeToUnlimitedEnd;
 
@@ -82,7 +84,7 @@ public class LivesManager : MonoBehaviour
         if (!UseProfile.IsUnlimitedHeart) return;
 
         DateTime currentTime = TimeManager.GetCurrentTime();
-        
+
         TimeSpan timeRemaining = UseProfile.TimeUnlimitedHeart - currentTime;
         if (timeRemaining.TotalSeconds <= 0)
         {
@@ -95,7 +97,7 @@ public class LivesManager : MonoBehaviour
         if (UseProfile.Heart >= maxHearts) return;
 
         DateTime currentTime = TimeManager.GetCurrentTime();
-        TimeSpan timePassed = currentTime- UseProfile.TimeLastOverHeart;
+        TimeSpan timePassed = currentTime - UseProfile.TimeLastOverHeart;
 
         if (!isOfflineCheck && timePassed.TotalSeconds < RefillTimeSeconds) return;
 

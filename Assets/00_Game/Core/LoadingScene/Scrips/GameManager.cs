@@ -1,15 +1,13 @@
-
-using System;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public DataRepo dataRepo;
-    public FXManager fxManager;
-    public AudioManager audioManager;
+    [SerializeField] private DataRepo dataRepo;
+    [SerializeField] private FXManager fxManager;
+    [SerializeField] private AudioManager audioManager;
     public LocalizationManager localizationManager;
     public LivesManager livesManager;
-    
+
     protected override void OnAwake()
     {
         Init();
@@ -19,14 +17,16 @@ public class GameManager : Singleton<GameManager>
     {
         Application.targetFrameRate = 60;
         fxManager.Init();
-        // dataRepo.Init();
+        dataRepo.Init();
         //
-        // audioManager.Init();
+        audioManager.Init();
         // livesManager.Init();
         //Init final
+        fxManager.LoadSceneWithIrisWipe(SceneName.LOBBY_SCENE, isSkipOutPhase);
     }
 
     public bool isSkipOutPhase;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

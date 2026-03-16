@@ -12,15 +12,15 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     // ==========================================
     public static T Instance { get; private set; }
     private static AsyncOperationHandle<GameObject> handle;
-    private static bool isInstantiating = false;
-    
-    public static async UniTaskVoid Setup(string addressableKey, Transform parent, System.Action<T> callback)
+    private static bool isInstantiating;
+
+    protected static async UniTaskVoid Setup(string addressableKey, Transform parent, System.Action<T> callback)
     {
         var instance = await GetInstanceAsync(addressableKey, parent);
         callback?.Invoke(instance);
     }
 
-    public static async UniTask<T> GetInstanceAsync(string addressableKey, Transform parent)
+    private static async UniTask<T> GetInstanceAsync(string addressableKey, Transform parent)
     {
         if (Instance != null)
         {

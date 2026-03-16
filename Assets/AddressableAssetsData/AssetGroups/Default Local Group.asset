@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: d67464584778145d9ba57f1221a7aa8e
+  m_SerializeEntries:
+  - m_GUID: 124ff88eb109547bbb5a78c9acf74ad3
+    m_Address: Assets/00_Game/PopupPrefabs/LobbyBox.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c86585c7c2c14403be009ded636b510
+    m_Address: Assets/00_Game/PopupPrefabs/ShopBox.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daef24bbacefc43f7a9459fd822fb763
+    m_Address: Assets/00_Game/PopupPrefabs/RankingBox.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 297a8a18aa2ad4c50a1a709b839850aa, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 957ea4a8ed5314145b1771ad907161c1, type: 2}
+    - {fileID: 11400000, guid: b08b9e071698f4f15a84535e4f756e8a, type: 2}

@@ -1,34 +1,45 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set;}
+
+
     public AudioSource asBg;
-    public List<AudioSource> asOthers;
+    [Header("SFX Pooling")]
+    public GameObject sfxPrefab;
 
     private AudioDataBase audioDataBase;
-    private Dictionary<AudioKeyType, AudioConfig> audioLookup;
+    private Dictionary<string, AudioConfig> audioLookup;
+    private float currentSfxVolume = 1f;
 
+    
     public void Init()
     {
-        audioDataBase = GameManager.Instance.dataRepo.audioData;
+        Instance = this;
+
+
+        audioDataBase = DataRepo.Instance.audioData;
         BuildAudioLookup();
         SetInitVolumes();
-        // if (UseProfile.HasCompletedLevelTutorial)
-        //     PlayMusic(AudioKeyType.BGMHome);
     }
 
     private void BuildAudioLookup()
     {
-        audioLookup = new();
+        audioLookup = new Dictionary<string, AudioConfig>();
         foreach (var config in audioDataBase.audioConfigs)
         {
-            if (config.enumKey == AudioKeyType.None)
+            if (string.IsNullOrEmpty(config.key))
                 continue;
-            if (!audioLookup.ContainsKey(config.enumKey))
-                audioLookup.Add(config.enumKey, config);
+
+            string lowerKey = config.key.ToLower();
+
+            if (!audioLookup.ContainsKey(lowerKey))
+                audioLookup.Add(lowerKey, config);
             else
-                Debug.LogWarning($"Tìm thấy AudioKey bị trùng: {config.enumKey}");
+                Debug.LogWarning($"Tìm thấy AudioKey bị trùng: {config.key}");
         }
     }
 
@@ -38,59 +49,64 @@ public class AudioManager : MonoBehaviour
         SetSoundVolume(UseProfile.OnSound ? 1f : 0f);
     }
 
-
-    private int _currentIndex = 0;
-
-    private AudioSource GetAvailableSource()
-    {
-        if (asOthers.Count == 0) return null;
-        
-        foreach (var source in asOthers)
-            if (!source.isPlaying)
-                return source;
-        var next = asOthers[_currentIndex % asOthers.Count];
-        _currentIndex++;
-        return next;
-    }
-
     /// <summary>
     /// Phát một SFX (âm thanh ngắn) dựa trên Key.
     /// </summary>
-    private Dictionary<AudioKeyType, float> lastPlayTimes = new();
-
-    public void PlaySfx(AudioKeyType key)
+    public void PlaySfx(string key)
     {
-        if (!UseProfile.OnSound) return;
+        if (!UseProfile.OnSound || string.IsNullOrEmpty(key)) return;
 
-        if (lastPlayTimes.TryGetValue(key, out float lastTime))
+        string lowerKey = key.ToLower();
+
+        if (!audioLookup.TryGetValue(lowerKey, out var config))
         {
-            if (Time.time - lastTime < 0.1f)
-                return;
-        }
-
-        lastPlayTimes[key] = Time.time;
-
-        if (!audioLookup.TryGetValue(key, out var config))
-        {
-            Debug.LogWarning($"Không tìm thấy AudioKey: {key}");
+#if UNITY_EDITOR
+            Debug.LogWarning($"Không tìm thấy AudioKey SFX: {key}");
+#endif
             return;
         }
 
         AudioClip clipToPlay = config.GetRandomClip();
         if (clipToPlay == null) return;
 
-        AudioSource source = GetAvailableSource();
-        if (source == null) return;
+        // Spawn từ Pool
+        GameObject sfxObj = SimplePool2.Spawn(sfxPrefab, Vector3.zero, Quaternion.identity);
+        if (sfxObj == null) return;
 
+        AudioSource source = sfxObj.GetComponent<AudioSource>();
+
+        // Cài đặt thông số
         source.clip = clipToPlay;
         source.pitch = config.GetRandomPitch();
-        source.Play();
-    }
 
-    public void PlayMusic(AudioKeyType key)
+        // Logic custom riêng cho Coin
+        source.volume = lowerKey == "coin" ? 0.2f : currentSfxVolume;
+
+        // Rung thiết bị cho nút Click
+        // if (lowerKey == "click")
+        //     Vibration.Vibrate(30);
+
+        source.Play();
+
+        // Tự động thu hồi bằng UniTask
+        DespawnAfterPlayAsync(sfxObj, clipToPlay.length).Forget();
+    }
+    private async UniTaskVoid DespawnAfterPlayAsync(GameObject obj, float delay)
     {
-        if (!UseProfile.OnMusic) return;
-        if (!audioLookup.TryGetValue(key, out AudioConfig config))
+        await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
+
+        if (obj != null && obj.activeInHierarchy)
+        {
+            SimplePool2.Despawn(obj);
+        }
+    }
+    public void PlayMusic(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return;
+
+        string lowerKey = key.ToLower();
+
+        if (!audioLookup.TryGetValue(lowerKey, out AudioConfig config))
         {
             Debug.LogWarning($"Không tìm thấy AudioKey nhạc: {key}");
             return;
@@ -102,9 +118,10 @@ public class AudioManager : MonoBehaviour
         asBg.clip = clipToPlay;
         asBg.loop = true;
         asBg.pitch = 1f;
-        asBg.Play();
-    }
 
+        if (UseProfile.OnMusic) asBg.Play();
+        else asBg.Pause();
+    }
 
     public void StopMusic(bool onStatus)
     {
@@ -118,9 +135,6 @@ public class AudioManager : MonoBehaviour
 
     public void SetSoundVolume(float volume)
     {
-        foreach (var source in asOthers)
-        {
-            source.volume = volume;
-        }
+        currentSfxVolume = volume;
     }
 }

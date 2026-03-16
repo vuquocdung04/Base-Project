@@ -15,6 +15,7 @@ public partial class FXManager
         IrisWipeAsync(sceneName, skipOutPhase).Forget();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private async UniTaskVoid IrisWipeAsync(string sceneName, bool skipOutPhase)
     {
         wipeCanvas.gameObject.SetActive(true);

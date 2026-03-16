@@ -19,7 +19,7 @@ public class LocalizationManager : MonoBehaviour
     private Language currentLanguage;
     public void Init()
     {
-        var localizationData = GameManager.Instance.dataRepo.localizationDataBase;
+        var localizationData = DataRepo.Instance.localizationDataBase;
         
         var dataTable = localizationData.entries;
         foreach (var data in dataTable)
