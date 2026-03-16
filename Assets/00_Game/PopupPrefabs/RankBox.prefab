@@ -86,8 +86,8 @@ GameObject:
   - component: {fileID: 9025405575941039383}
   - component: {fileID: 3276145824427042102}
   - component: {fileID: 8761356524465649262}
-  - component: {fileID: 5411829065222652508}
   - component: {fileID: 6114228145504577257}
+  - component: {fileID: 4768220447557236170}
   m_Layer: 5
   m_Name: RankBox
   m_TagString: Untagged
@@ -152,23 +152,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &5411829065222652508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5962912545494080649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &6114228145504577257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +169,23 @@ MonoBehaviour:
   isAnim: 0
   durationAppeared: 0.3
   durationSlide: 0.2
+--- !u!114 &4768220447557236170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5962912545494080649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &7062129701317857190
 GameObject:
   m_ObjectHideFlags: 0

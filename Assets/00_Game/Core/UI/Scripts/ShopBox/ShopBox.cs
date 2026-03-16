@@ -9,11 +9,9 @@ public class ShopBox : BaseBox<ShopBox>
     }
     protected override void Init()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void InitState()
     {
-        throw new System.NotImplementedException();
     }
 }

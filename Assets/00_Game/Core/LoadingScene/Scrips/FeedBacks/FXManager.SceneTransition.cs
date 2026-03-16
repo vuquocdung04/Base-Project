@@ -9,46 +9,77 @@ public partial class FXManager
     public Canvas wipeCanvas;
     public float transitionDurationOut = 1f;
     public float transitionDurationIn = 1f;
+    [HideInInspector] public bool isNextSceneReady;
+
+    private Material cachedWipeMat;
+
+    private Material WipeMat
+    {
+        get
+        {
+            if (cachedWipeMat == null)
+                cachedWipeMat = wipeCanvas.GetComponentInChildren<RawImage>().material;
+            return cachedWipeMat;
+        }
+    }
 
     public void LoadSceneWithIrisWipe(string sceneName, bool skipOutPhase = false)
     {
         IrisWipeAsync(sceneName, skipOutPhase).Forget();
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     private async UniTaskVoid IrisWipeAsync(string sceneName, bool skipOutPhase)
     {
-        wipeCanvas.gameObject.SetActive(true);
-        wipeCanvas.worldCamera = Camera.main;
-        Material wipeMat = wipeCanvas.GetComponentInChildren<RawImage>().material;
+        isNextSceneReady = false;
+        SetupCanvasCamera();
 
         if (skipOutPhase)
         {
-            wipeMat.SetFloat("_IsInvert", 1f);
-            wipeMat.SetFloat("_Radius", 0f);
+            SetWipeState(1f, 0f);
         }
         else
         {
-            wipeMat.SetFloat("_IsInvert", 0f);
-            wipeMat.SetFloat("_Radius", 0f);
-            
-            await wipeMat.DOFloat(1.5f, "_Radius", transitionDurationOut).ToUniTask();
+            SetWipeState(0f, 0f);
+            await WipeMat.DOFloat(1.5f, "_Radius", transitionDurationOut).ToUniTask();
         }
-        
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
             await UniTask.Yield();
         }
 
-        // camera moi cua scene
-        wipeCanvas.worldCamera = Camera.main;
-        wipeMat.SetFloat("_IsInvert", 1f);
-        wipeMat.SetFloat("_Radius", 0f);
-
-        await wipeMat.DOFloat(1.5f, "_Radius", transitionDurationIn).ToUniTask();
+        // Scene mới đã load xong -> Cập nhật lại camera mới cho Canvas
+        SetupCanvasCamera();
+        SetWipeState(1f, 0f);
+        
+        await UniTask.WaitUntil(() => isNextSceneReady);
+        // Chạy hiệu ứng mở ra
+        await WipeMat.DOFloat(1.5f, "_Radius", transitionDurationIn).ToUniTask();
 
         Debug.Log("Completed Transition");
         wipeCanvas.gameObject.SetActive(false);
+    }
+
+    public void PrepareWipeClosed()
+    {
+        SetupCanvasCamera();
+        SetWipeState(1f, 0f);
+    }
+
+    private void SetupCanvasCamera()
+    {
+        if (!wipeCanvas.gameObject.activeSelf)
+        {
+            wipeCanvas.gameObject.SetActive(true);
+        }
+
+        wipeCanvas.worldCamera = Camera.main;
+    }
+
+    private void SetWipeState(float isInvert, float radius)
+    {
+        WipeMat.SetFloat("_IsInvert", isInvert);
+        WipeMat.SetFloat("_Radius", radius);
     }
 }

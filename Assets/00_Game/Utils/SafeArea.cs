@@ -12,10 +12,9 @@ namespace Core.GameUI.Util
         private void OnRectTransformDimensionsChange()
         {
             ResetSafeArea();
-            Debug.LogError("AAAAAAAA");
         }
 
-        public void ResetSafeArea()
+        private void ResetSafeArea()
         {
             RectTransform rectTransform = GetComponent<RectTransform>();
             Rect safeArea = Screen.safeArea;

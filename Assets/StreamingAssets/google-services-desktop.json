@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "71314973228",
+    "project_id": "marble-sort-93127",
+    "storage_bucket": "marble-sort-93127.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71314973228:android:65ea40b1fe1c85cb3da789",
+        "android_client_info": {
+          "package_name": "com.dung.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsO3ySGFZJrOqplm5eOojdaXkUbDhH7Tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,11 +10,9 @@ public class RankBox : BaseBox<RankBox>
 
     protected override void Init()
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void InitState()
     {
-        throw new System.NotImplementedException();
     }
 }

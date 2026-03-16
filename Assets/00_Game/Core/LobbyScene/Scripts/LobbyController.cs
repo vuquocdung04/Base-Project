@@ -1,5 +1,7 @@
 
 
+using Cysharp.Threading.Tasks;
+
 public class LobbyController : Singleton<LobbyController>
 {
     public LobbyScene lobbyScene;
@@ -12,8 +14,6 @@ public class LobbyController : Singleton<LobbyController>
 
     private void Init()
     {
-        lobbyScene.Init();
-
-        
+        lobbyScene.InitAsync().Forget();
     }
 }

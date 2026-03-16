@@ -16,7 +16,7 @@ public class LobbyBox : BaseBox<LobbyBox>
     {
         OnClicked(btnSetting, delegate
         {
-            
+            Debug.Log("Setting button clicked");
         });
         
         OnClicked(btnAvatar, delegate
