@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,15 +12,16 @@ public class LobbyBox : BaseBox<LobbyBox>
 
     public Button btnSetting;
     public Button btnAvatar;
+    public Image txt;
     
     protected override void Init()
     {
-        OnClicked(btnSetting, delegate
+        btnSetting.OnClicked(delegate
         {
             Debug.Log("Setting button clicked");
+            
         });
-        
-        OnClicked(btnAvatar, delegate
+        btnAvatar.OnClicked(delegate
         {
             
         });
@@ -28,14 +30,5 @@ public class LobbyBox : BaseBox<LobbyBox>
     protected override void InitState()
     {
         
-    }
-
-    private void OnClicked(Button btn, System.Action callback)
-    {
-        btn.onClick.AddListener(delegate
-        {
-            AudioManager.Instance.PlaySfx("Click");
-            callback.Invoke();
-        });
     }
 }

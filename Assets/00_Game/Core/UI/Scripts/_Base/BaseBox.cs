@@ -99,8 +99,7 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
 
         transform.SetAsLastSibling();
 
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.interactable = true;
+        canvasGroup.SetCanvasState(true);
 
         if (isAnim)
         {
@@ -126,8 +125,7 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     {
         KillCurrentTweens();
 
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
+        canvasGroup.SetCanvasState(false);
 
         if (isAnim)
         {
@@ -150,27 +148,23 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
         KillCurrentTweens();
         transform.SetAsLastSibling();
 
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.interactable = true;
+        canvasGroup.SetCanvasState(true, 1f);
 
         float startX = slideInFromLeft ? -mainPanel.rect.width : mainPanel.rect.width;
         mainPanel.anchoredPosition = new Vector2(startX, 0);
 
-        currentTween = mainPanel.DOAnchorPos(Vector2.zero, durationSlide).SetEase(Ease.OutCubic);
+        currentTween = mainPanel.SlideTo(Vector2.zero, durationSlide);
         return currentTween;
     }
 
     public Tween CloseSliding(bool slideOutToLeft)
     {
         KillCurrentTweens();
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
+        canvasGroup.SetCanvasState(false);
 
         float endX = slideOutToLeft ? -mainPanel.rect.width : mainPanel.rect.width;
 
-        currentTween = mainPanel.DOAnchorPos(new Vector2(endX, 0), durationSlide)
-            .SetEase(Ease.InCubic)
+        currentTween = mainPanel.SlideTo(new Vector2(endX, 0), durationSlide, Ease.InCubic)
             .OnComplete(ForceHide);
 
         return currentTween;
@@ -178,9 +172,7 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
 
     private void ForceHide()
     {
-        canvasGroup.alpha = 0f;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
+        canvasGroup.SetCanvasState(false, 0f);
     }
 
     private void KillCurrentTweens()

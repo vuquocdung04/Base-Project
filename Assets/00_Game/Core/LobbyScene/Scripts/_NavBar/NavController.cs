@@ -17,11 +17,10 @@ public class NavController : MonoBehaviour
         foreach (var nav in navButtons)
         {
             nav.Init();
-            nav.OnClicked(delegate
+            nav.SetupClick(delegate
             {
                 if (nav != currentNavSelected)
                 {
-                    AudioManager.Instance.PlaySfx("Click");
                     UpdateNavButtonState(nav);
                 }
             });

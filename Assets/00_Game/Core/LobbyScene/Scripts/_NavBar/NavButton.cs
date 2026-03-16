@@ -17,13 +17,13 @@ public class NavButton : MonoBehaviour
 
     public void Init()
     {
-        UIImageUtils.FitToTargetHeight(icon.GetComponent<Image>(), 200f);
+        UIUtils.FitToTargetHeight(icon.GetComponent<Image>(), 200f);
     }
 
     public void HandleSelected(bool isSelected, Sprite sprSelected, Vector2 targetSize, Vector2 defaultSize)
     {
         rectMain.sizeDelta = isSelected ? targetSize : defaultSize;
-        imgMain.sprite = isSelected ? sprSelected : sprUnSelected;
+        imgMain.SetSprite(isSelected ? sprSelected : sprUnSelected);
         //imgDisplayText.gameObject.SetActive(isSelected);
         if (isSelected)
         {
@@ -37,9 +37,9 @@ public class NavButton : MonoBehaviour
         }
     }
 
-    public void OnClicked(System.Action callback = null)
+    public void SetupClick(System.Action callback)
     {
-        btnMain.onClick.AddListener(delegate { callback?.Invoke(); });
+        btnMain.OnClicked(() => callback?.Invoke());
     }
 
 
