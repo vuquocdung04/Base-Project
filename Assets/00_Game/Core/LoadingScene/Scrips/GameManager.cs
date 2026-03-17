@@ -19,20 +19,19 @@ public class GameManager : Singleton<GameManager>
     protected override void OnAwake()
     {
         Init().Forget();
-    }
+    } 
     private async UniTaskVoid Init()
     {
         Application.targetFrameRate = 60;
         loadingBox.Init();
         
-        UniTask load50Task = loadingBox.LoadingAsync(0.5f, loadingStepDuration);
+        var load50Task = loadingBox.LoadingAsync(0.5f, loadingStepDuration);
         firebaseSetup.Init();
         await UniTask.WaitUntil(() => firebaseSetup.IsActiveRemote);
-        
         dataRepo.Init();
         fxManager.Init();
         audioManager.Init();
-        // livesManager.Init();
+        livesManager.Init();
         await load50Task;
         await loadingBox.LoadingAsync(1f, loadingStepDuration);
         fxManager.PrepareWipeClosed();

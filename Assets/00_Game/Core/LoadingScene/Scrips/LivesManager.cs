@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LivesManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static LivesManager Instance { get; private set; }
 
     [Header("Heart Settings")] public int maxHearts = 5;
     private const int RefillTimeMinutes = 30;
@@ -19,7 +19,8 @@ public class LivesManager : MonoBehaviour
 
     public void Init()
     {
-        cts?.Cancel();
+        Instance = this;
+        
         cts?.Dispose();
         cts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
         CheckUnlimitedHeartExpiration();

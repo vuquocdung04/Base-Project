@@ -24,7 +24,7 @@ public class NavButton : MonoBehaviour
     {
         rectMain.sizeDelta = isSelected ? targetSize : defaultSize;
         imgMain.SetSprite(isSelected ? sprSelected : sprUnSelected);
-        //imgDisplayText.gameObject.SetActive(isSelected);
+        //imgDisplayText.gameObject.SetActive(isSelected);      
         if (isSelected)
         {
             icon.DOScale(Vector3.one * 1.3f, 0.15f);

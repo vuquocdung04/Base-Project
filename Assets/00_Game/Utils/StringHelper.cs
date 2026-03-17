@@ -128,15 +128,15 @@ public class SceneName
 public class PathPrefabs
 {
     private const string DEFAULT_PATH = "Assets/00_Game/PopupPrefabs/";
-    public const string SETTINGS_PANEL = DEFAULT_PATH + "SettingsPanel.prefab";
+    public const string SETTING_BOX = DEFAULT_PATH + "SettingBox.prefab";
 
     public const string SHOP_BOX = DEFAULT_PATH + "ShopBox.prefab";
     public const string RANK_BOX = DEFAULT_PATH + "RankBox.prefab";
 
     public const string LOBBY_BOX = DEFAULT_PATH + "LobbyBox.prefab";
 
-    public const string RESTORE_HEART_BOX = DEFAULT_PATH + "RestoreHeartBox.prefab";
-    public const string REMOVE_ADS_BOX = DEFAULT_PATH + "RemoveAdsBox.prefab";
+    public const string MORE_LIVES_BOX = DEFAULT_PATH + "MoreLivesBox.prefab";
+    public const string NO_ADS_BOX = DEFAULT_PATH + "NoAdsBox.prefab";
 
     public const string WHEEL_SPIN_BOX = DEFAULT_PATH + "WheelSpinBox.prefab";
 
@@ -144,7 +144,7 @@ public class PathPrefabs
 
     public const string RESULT_DISPLAY_SKIN_BOX = DEFAULT_PATH + "ResultDisplaySkinBox.prefab";
     public const string WIN_BOX = DEFAULT_PATH + "WinBox.prefab";
-    public const string CONTINUE_BOX = DEFAULT_PATH + "ContinueBox.prefab";
+    public const string KEEP_PLAYING_BOX = DEFAULT_PATH + "KeepPlayingBox.prefab";
     public const string LOSE_BOX = DEFAULT_PATH + "LoseBox.prefab";
     public const string BUY_SUCCESS_BOX = DEFAULT_PATH + "BuySuccessBox.prefab";
     public const string NEW_BOOSTER_UNLOCK_BOX = DEFAULT_PATH + "NewBoosterUnlockBox.prefab";
@@ -224,6 +224,7 @@ public static class UseProfile
         set
         {
             PlayerPrefs.SetInt(StringHelper.ONOFF_MUSIC, value ? 1 : 0);
+            AudioManager.Instance.RefreshMusicVolume();
             PlayerPrefs.Save();
         }
     }

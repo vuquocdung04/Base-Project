@@ -1,29 +1,41 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyScene : MonoBehaviour
 {
     public NavController navController;
-
-    public Transform canvasHolderNav;
-
+    public Button btnHeart;
     public async UniTask InitAsync()
-    {
+    {           
         navController.Init();
 
+        await PreLoad();
+
+        btnHeart.OnClicked(delegate
+        {
+            MoreLivesBox.Setup(LobbyController.Instance.midCanvas, box =>
+            {
+                box.Show();
+            });
+        });
+    }
+
+    private static async UniTask PreLoad()
+    {
         var lobbyTcs = new UniTaskCompletionSource();
         var shopTcs = new UniTaskCompletionSource();
         var rankTcs = new UniTaskCompletionSource();
-
-        LobbyBox.Setup(canvasHolderNav, box =>
+        var holder = LobbyController.Instance.botCanvas;
+        LobbyBox.Setup(holder, box =>
         {
             box.Show();
             lobbyTcs.TrySetResult();
         });
 
-        ShopBox.Setup(canvasHolderNav, _ => shopTcs.TrySetResult());
+        ShopBox.Setup(holder, _ => shopTcs.TrySetResult());
 
-        RankBox.Setup(canvasHolderNav, _ => rankTcs.TrySetResult());
+        RankBox.Setup(holder, _ => rankTcs.TrySetResult());
         
         await UniTask.WhenAll(lobbyTcs.Task, shopTcs.Task, rankTcs.Task);
         

@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopBox : BaseBox<ShopBox>
 {
@@ -7,6 +8,10 @@ public class ShopBox : BaseBox<ShopBox>
     {
         return Setup(PathPrefabs.SHOP_BOX,parentHolder, onComplete);
     }
+
+    public Button btnClose;
+    
+     
     protected override void Init()
     {
     }

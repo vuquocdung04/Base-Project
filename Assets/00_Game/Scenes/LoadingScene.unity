@@ -476,8 +476,8 @@ MonoBehaviour:
   loadingBox: {fileID: 783918718}
   firebaseSetup: {fileID: 363669734}
   isSkipOutPhase: 1
-  loadingStepDuration: 1
-  loadingFadeOutDuration: 1
+  loadingStepDuration: 0.1
+  loadingFadeOutDuration: 0.1
 --- !u!1 &783918712
 GameObject:
   m_ObjectHideFlags: 0

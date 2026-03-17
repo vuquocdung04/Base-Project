@@ -19,8 +19,6 @@ public class AudioManager : MonoBehaviour
     public void Init()
     {
         Instance = this;
-
-
         audioDataBase = DataRepo.Instance.audioData;
         BuildAudioLookup();
         SetInitVolumes();
@@ -45,8 +43,8 @@ public class AudioManager : MonoBehaviour
 
     private void SetInitVolumes()
     {
-        SetMusicVolume(UseProfile.OnMusic ? 1f : 0f);
-        SetSoundVolume(UseProfile.OnSound ? 1f : 0f);
+        SetMusicVolume(1f);
+        SetSoundVolume(1f);
     }
 
     /// <summary>
@@ -78,13 +76,8 @@ public class AudioManager : MonoBehaviour
         // Cài đặt thông số
         source.clip = clipToPlay;
         source.pitch = config.GetRandomPitch();
-
-        // Logic custom riêng cho Coin
+        
         source.volume = lowerKey == "coin" ? 0.2f : currentSfxVolume;
-
-        // Rung thiết bị cho nút Click
-        // if (lowerKey == "click")
-        //     Vibration.Vibrate(30);
 
         source.Play();
 
@@ -118,23 +111,22 @@ public class AudioManager : MonoBehaviour
         asBg.clip = clipToPlay;
         asBg.loop = true;
         asBg.pitch = 1f;
-
-        if (UseProfile.OnMusic) asBg.Play();
-        else asBg.Pause();
+        
+        asBg.Play();
+        RefreshMusicVolume();
     }
-
-    public void StopMusic(bool onStatus)
+    public void RefreshMusicVolume()
     {
-        asBg.Stop();
+        SetMusicVolume(1f);
     }
-
-    public void SetMusicVolume(float volume)
+    private void SetMusicVolume(float volume)
     {
         asBg.volume = volume;
+        asBg.volume = UseProfile.OnMusic ? 1f : 0f;
     }
 
-    public void SetSoundVolume(float volume)
+    private void SetSoundVolume(float volume)
     {
-        currentSfxVolume = volume;
+        currentSfxVolume = UseProfile.OnSound ? volume : 0f;
     }
 }

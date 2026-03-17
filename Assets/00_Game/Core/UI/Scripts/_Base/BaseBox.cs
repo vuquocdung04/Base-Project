@@ -37,28 +37,28 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
         isInstantiating = true;
         handle = Addressables.InstantiateAsync(addressableKey, parent);
         GameObject obj = await handle.Task;
-
+        
         if (obj == null)
         {
             Debug.LogError($"[BaseBox] Không tìm thấy key: {addressableKey}");
             isInstantiating = false;
             return null;
         }
-
         Instance = obj.GetComponent<T>();
+
         if (Instance == null)
         {
             Addressables.ReleaseInstance(obj);
             isInstantiating = false;
             return null;
         }
-
+        Instance.ForceHide();
+        
+        
         Instance.Init();
         Instance.InitState();
 
         isInstantiating = false;
-        Instance.ForceHide();
-
         return Instance;
     }
 
@@ -96,32 +96,28 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     public void Show()
     {
         KillCurrentTweens();
-
         transform.SetAsLastSibling();
-
-        canvasGroup.SetCanvasState(true);
-
         if (isAnim)
         {
             mainPanel.localScale = Vector3.zero;
-            canvasGroup.alpha = 0f;
+            canvasGroup.SetCanvasState(true,0);
             DoAppearAnimation();
         }
         else
         {
             mainPanel.localScale = Vector3.one;
-            canvasGroup.alpha = 1f;
+            canvasGroup.SetCanvasState(true,1);
         }
     }
 
-    protected virtual void DoAppearAnimation()
+    private void DoAppearAnimation()
     {
         currentTween = mainPanel.DOScale(Vector3.one, durationAppeared).SetEase(Ease.OutBack);
         fadeTween = canvasGroup.DOFade(1f, durationAppeared * 0.8f).SetEase(Ease.OutQuad);
     }
 
 
-    public void Close()
+    protected void Close()
     {
         KillCurrentTweens();
 
