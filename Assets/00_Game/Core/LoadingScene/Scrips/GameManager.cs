@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public LivesManager livesManager;
     [SerializeField] private LoadingBox loadingBox;
     [SerializeField] private FirebaseSetup firebaseSetup;
+    public ToastManager toastManager;
     
     
     public bool isSkipOutPhase;
@@ -32,6 +33,7 @@ public class GameManager : Singleton<GameManager>
         fxManager.Init();
         audioManager.Init();
         livesManager.Init();
+        toastManager.Init();
         await load50Task;
         await loadingBox.LoadingAsync(1f, loadingStepDuration);
         fxManager.PrepareWipeClosed();

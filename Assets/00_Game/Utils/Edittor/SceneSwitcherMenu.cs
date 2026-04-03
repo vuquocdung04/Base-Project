@@ -1,36 +1,63 @@
-﻿
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
+using System.IO;
+using System.Text;
 
-public class SceneSwitcherMenu
+public class SceneSwitcherGenerator : AssetPostprocessor
 {
-    private const string SCENE_FOLDER_PATH = "Assets/00_Game/Scenes/";
-
-    [MenuItem("Open Scene/Loading Scene", priority = 1)]
-    static void OpenScene0()
-    {
-        OpenScene(SCENE_FOLDER_PATH + "LoadingScene.unity");
-    }
-
-    [MenuItem("Open Scene/Lobby Scene", priority = 2)]
-    static void OpenScene1()
-    {
-        OpenScene(SCENE_FOLDER_PATH + "LobbyScene.unity");
-    }
-
-    [MenuItem("Open Scene/Game Play", priority = 3)]
-    static void OpenScene2()
-    {
-        OpenScene(SCENE_FOLDER_PATH + "GamePlayScene.unity");
-    }
+    private const string SCENE_FOLDER = "Assets/00_Game/Scenes";
+    private const string OUTPUT_PATH = "Assets/00_Game/Editor/SceneSwitcherMenu_Generated.cs";
     
-    static void OpenScene(string scenePath)
+    static void OnPostprocessAllAssets(
+        string[] imported, string[] deleted, string[] moved, string[] movedFrom)
     {
-        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        bool sceneChanged = false;
+        foreach (var path in imported) if (path.EndsWith(".unity")) sceneChanged = true;
+        foreach (var path in deleted)  if (path.EndsWith(".unity")) sceneChanged = true;
+        foreach (var path in moved)    if (path.EndsWith(".unity")) sceneChanged = true;
+
+        if (sceneChanged) GenerateMenu();
+    }
+
+    [MenuItem("Tools/Regenerate Scene Menu")]
+    static void GenerateMenu()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:Scene", new[] { SCENE_FOLDER });
+
+        var sb = new StringBuilder();
+        sb.AppendLine("// AUTO-GENERATED — Do not edit manually");
+        sb.AppendLine("#if UNITY_EDITOR");
+        sb.AppendLine("using UnityEditor;");
+        sb.AppendLine("using UnityEditor.SceneManagement;");
+        sb.AppendLine();
+        sb.AppendLine("public class SceneSwitcherMenu_Generated");
+        sb.AppendLine("{");
+
+        for (int i = 0; i < guids.Length; i++)
         {
-            EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            string name = Path.GetFileNameWithoutExtension(path);
+
+            sb.AppendLine($"    [MenuItem(\"Open Scene/{name}\", priority = {i + 1})]");
+            sb.AppendLine($"    static void OpenScene_{i}()");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())");
+            sb.AppendLine($"            EditorSceneManager.OpenScene(\"{path}\", OpenSceneMode.Single);");
+            sb.AppendLine("    }");
+            sb.AppendLine();
         }
+
+        sb.AppendLine("}");
+        sb.AppendLine("#endif");
+
+        // Tạo folder nếu chưa có
+        string dir = Path.GetDirectoryName(OUTPUT_PATH);
+        if (!Directory.Exists(dir))
+            if (dir != null)
+                Directory.CreateDirectory(dir);
+
+        File.WriteAllText(OUTPUT_PATH, sb.ToString());
+        AssetDatabase.Refresh();
     }
 }
 #endif

@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set;}
+    public static AudioManager Instance { get; private set; }
 
 
     public AudioSource asBg;
     [Header("SFX Pooling")]
     public GameObject sfxPrefab;
-
+    public float sfxSpamCooldown = 0.08f;
     private AudioDataBase audioDataBase;
     private Dictionary<string, AudioConfig> audioLookup;
+    private Dictionary<string, float> lastPlayTimes = new Dictionary<string, float>();
     private float currentSfxVolume = 1f;
 
-    
+
     public void Init()
     {
         Instance = this;
@@ -43,7 +44,7 @@ public class AudioManager : MonoBehaviour
 
     private void SetInitVolumes()
     {
-        SetMusicVolume(1f);
+        SetMusicVolume();
         SetSoundVolume(1f);
     }
 
@@ -56,6 +57,16 @@ public class AudioManager : MonoBehaviour
 
         string lowerKey = key.ToLower();
 
+        if (lastPlayTimes.TryGetValue(lowerKey, out float lastTime))
+        {
+            if (Time.time - lastTime < sfxSpamCooldown)
+            {
+                return; 
+            }
+        }
+        
+        lastPlayTimes[lowerKey] = Time.time;
+
         if (!audioLookup.TryGetValue(lowerKey, out var config))
         {
 #if UNITY_EDITOR
@@ -67,21 +78,18 @@ public class AudioManager : MonoBehaviour
         AudioClip clipToPlay = config.GetRandomClip();
         if (clipToPlay == null) return;
 
-        // Spawn từ Pool
         GameObject sfxObj = SimplePool2.Spawn(sfxPrefab, Vector3.zero, Quaternion.identity);
         if (sfxObj == null) return;
 
         AudioSource source = sfxObj.GetComponent<AudioSource>();
 
-        // Cài đặt thông số
         source.clip = clipToPlay;
         source.pitch = config.GetRandomPitch();
-        
+
         source.volume = lowerKey == "coin" ? 0.2f : currentSfxVolume;
 
         source.Play();
-
-        // Tự động thu hồi bằng UniTask
+        
         DespawnAfterPlayAsync(sfxObj, clipToPlay.length).Forget();
     }
     private async UniTaskVoid DespawnAfterPlayAsync(GameObject obj, float delay)
@@ -111,18 +119,17 @@ public class AudioManager : MonoBehaviour
         asBg.clip = clipToPlay;
         asBg.loop = true;
         asBg.pitch = 1f;
-        
+
         asBg.Play();
         RefreshMusicVolume();
     }
     public void RefreshMusicVolume()
     {
-        SetMusicVolume(1f);
+        SetMusicVolume();
     }
-    private void SetMusicVolume(float volume)
+    private void SetMusicVolume()
     {
-        asBg.volume = volume;
-        asBg.volume = UseProfile.OnMusic ? 1f : 0f;
+        asBg.volume = UseProfile.OnMusic ? 0.2f : 0f;
     }
 
     private void SetSoundVolume(float volume)
