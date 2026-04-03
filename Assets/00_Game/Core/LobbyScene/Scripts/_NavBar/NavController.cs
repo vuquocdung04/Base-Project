@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class NavController : MonoBehaviour
@@ -25,9 +26,13 @@ public class NavController : MonoBehaviour
                 }
             });
         }
+        InitAfterLayoutAsync().Forget();
+    }
+    private async UniTaskVoid InitAfterLayoutAsync()
+    {
+        await UniTask.WaitForEndOfFrame(this);
         InitNavButtonStateWith(ENavType.Lobby);
     }
-
     private void InitSize()
     {
         int countNavBar = navButtons.Count;
