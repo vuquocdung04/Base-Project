@@ -18,6 +18,7 @@ public class HeartView : MonoBehaviour
     private void OnEnable()
     {
         this.RegisterListener(EventID.CHANGE_HEART,OnHeartChanged );
+        UpdateHeartStateVisuals();
     }
 
     private void OnDisable()
@@ -44,7 +45,7 @@ public class HeartView : MonoBehaviour
         {
             int currentHearts = UseProfile.Heart;
             int maxHearts = LivesManager.Instance.GetMaxHearts();
-            heartCountText.text = $"{currentHearts}/{maxHearts}";
+            heartCountText.text = $"{currentHearts}";
 
             if (currentHearts >= maxHearts)
             {
@@ -82,14 +83,7 @@ public class HeartView : MonoBehaviour
                 return;
             }
 
-            if (time.TotalDays >= 1)
-            {
-                timerText.text = $"{(int)time.TotalDays}d {time.Hours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
-            }
-            else
-            {
-                timerText.text = $"{time.Hours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
-            }
+            timerText.text = time.TotalDays >= 1 ? $"{(int)time.TotalDays}d {time.Hours:D2}:{time.Minutes:D2}:{time.Seconds:D2}" : $"{time.Hours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
         }
     }
     private void UpdateNormalTimerText(int totalSeconds)
