@@ -127,7 +127,7 @@ public class SceneName
 
 public class PathPrefabs
 {
-    private const string DEFAULT_PATH = "Assets/00_Game/PopupPrefabs/";
+    private const string DEFAULT_PATH = "Assets/00_Game/Core/UI/Prefabs/";
     public const string SETTING_BOX = DEFAULT_PATH + "SettingBox.prefab";
 
     public const string SHOP_BOX = DEFAULT_PATH + "ShopBox.prefab";

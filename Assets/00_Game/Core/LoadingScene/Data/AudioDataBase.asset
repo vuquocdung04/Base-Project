@@ -34,6 +34,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 87df63f7fe596ac438fd2f376b11f2a0, type: 3}
     minPitch: 0.7
     maxPitch: 1.1
+  - key: Toast
+    variants:
+    - {fileID: 8300000, guid: 5ed60df51f85948c185d3f974d76333e, type: 3}
+    minPitch: 0.7
+    maxPitch: 1.1
   - key: sfx-GiftboxOpen
     variants:
     - {fileID: 8300000, guid: 9fa7e3f5b4ab7934e86acedef7a8594b, type: 3}
