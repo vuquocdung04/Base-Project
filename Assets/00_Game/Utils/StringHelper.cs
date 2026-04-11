@@ -340,21 +340,7 @@ public static class UseProfile
             // }
         }
     }
-
-    #region SettingType
-
-    #endregion
-
-    public static bool IsBackToLobbyOptionSetting
-    {
-        get { return PlayerPrefs.GetInt(StringHelper.IS_BACK_LOBBY_OPTION, 0) == 1; }
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.IS_BACK_LOBBY_OPTION, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
+    
     #region Bool Tut
 
     #endregion

@@ -26,7 +26,7 @@ public class KeepPlayingBox : BaseBox<KeepPlayingBox>
         btnBuyTime.OnClicked(delegate
         {
             // Logic add  time
-            bool trySubtractCoin = CurrencyManager.TrySubtractCoin(cost[countedShow]);
+            bool trySubtractCoin = ConsumableManager.TrySubtractCoin(cost[countedShow]);
             if (trySubtractCoin)
             {
                 Close();

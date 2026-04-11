@@ -1,5 +1,5 @@
 
-public class CurrencyManager
+public class ConsumableManager
 {
     public static int TotalCoin() => UseProfile.CurrentCoin;
     

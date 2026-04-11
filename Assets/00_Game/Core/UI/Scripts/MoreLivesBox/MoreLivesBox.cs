@@ -29,11 +29,11 @@ public class MoreLivesBox : BaseBox<MoreLivesBox>
 
         btnRefill.OnClicked(delegate
         {
-            if (CurrencyManager.TotalHeart() < LivesManager.Instance.maxHearts)
+            if (ConsumableManager.TotalHeart() < LivesManager.Instance.maxHearts)
             {
-                if (CurrencyManager.TrySubtractCoin(cost))
+                if (ConsumableManager.TrySubtractCoin(cost))
                 {
-                    CurrencyManager.AddHeart(1);
+                    ConsumableManager.AddHeart(1);
                     this.PostEvent(EventID.CHANGE_COIN);
                     AudioManager.Instance.PlaySfx("Reward");
                     Close();
@@ -47,7 +47,7 @@ public class MoreLivesBox : BaseBox<MoreLivesBox>
 
         btnRefillByAds.OnClicked(delegate
         {
-            if (CurrencyManager.TotalHeart() >= LivesManager.Instance.maxHearts)
+            if (ConsumableManager.TotalHeart() >= LivesManager.Instance.maxHearts)
             {
                 AudioManager.Instance.PlaySfx("Heart is full");
                 //return;
@@ -89,7 +89,7 @@ public class MoreLivesBox : BaseBox<MoreLivesBox>
 
     private void UpdateHeartUI(object param)
     {
-        txtDisplayLives.text = CurrencyManager.TotalHeart().ToString();
+        txtDisplayLives.text = ConsumableManager.TotalHeart().ToString();
     }
 
     protected override void OnDestroy()

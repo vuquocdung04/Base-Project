@@ -14,6 +14,7 @@ public class ShopBox : BaseBox<ShopBox>
      
     protected override void Init()
     {
+        
     }
 
     protected override void InitState()

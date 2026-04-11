@@ -9,8 +9,7 @@ public class NavButton : MonoBehaviour
     [Space(5)] [SerializeField] private Button btnMain;
 
     [SerializeField] RectTransform icon;
-
-    //[SerializeField] Image imgDisplayText;
+    
     [SerializeField] private Sprite sprUnSelected;
     [SerializeField] private Image imgMain;
     [SerializeField] private RectTransform rectMain;
@@ -24,7 +23,7 @@ public class NavButton : MonoBehaviour
     {
         rectMain.sizeDelta = isSelected ? targetSize : defaultSize;
         imgMain.SetSprite(isSelected ? sprSelected : sprUnSelected);
-        //imgDisplayText.gameObject.SetActive(isSelected);      
+        
         if (isSelected)
         {
             icon.DOScale(Vector3.one * 1.3f, 0.15f);

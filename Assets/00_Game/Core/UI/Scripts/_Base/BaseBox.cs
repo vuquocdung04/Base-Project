@@ -3,8 +3,10 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(CanvasGroup))] // Đảm bảo luôn có CanvasGroup
+[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(GraphicRaycaster))]
 public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
 {
     // ==========================================
@@ -24,7 +26,6 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     {
         if (Instance != null)
         {
-            Instance.InitState();
             return Instance;
         }
 
@@ -54,9 +55,7 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
         }
         Instance.ForceHide();
         
-        
         Instance.Init();
-        Instance.InitState();
 
         isInstantiating = false;
         return Instance;
@@ -95,6 +94,8 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
 
     public void Show()
     {
+        InitState();
+        
         KillCurrentTweens();
         transform.SetAsLastSibling();
         if (isAnim)
@@ -141,29 +142,36 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     // ==========================================
     public Tween ShowSliding(bool slideInFromLeft)
     {
+        InitState();
+
         KillCurrentTweens();
         transform.SetAsLastSibling();
 
         canvasGroup.SetCanvasState(true, 1f);
 
-        float startX = slideInFromLeft ? -mainPanel.rect.width : mainPanel.rect.width;
-        mainPanel.anchoredPosition = new Vector2(startX, 0);
+        RectTransform self = (RectTransform)transform;
+        float slideWidth = mainPanel.rect.width > 0 ? mainPanel.rect.width : Screen.width;
+        float startX = slideInFromLeft ? -slideWidth : slideWidth;
+        self.anchoredPosition = new Vector2(startX, 0);
 
-        currentTween = mainPanel.SlideTo(Vector2.zero, durationSlide);
+        currentTween = self.SlideTo(Vector2.zero, durationSlide);
         return currentTween;
     }
 
     public Tween CloseSliding(bool slideOutToLeft)
     {
         KillCurrentTweens();
-        canvasGroup.SetCanvasState(false);
 
-        float endX = slideOutToLeft ? -mainPanel.rect.width : mainPanel.rect.width;
+        RectTransform self = (RectTransform)transform;
+        float slideWidth = mainPanel.rect.width > 0 ? mainPanel.rect.width : Screen.width;
+        float endX = slideOutToLeft ? -slideWidth : slideWidth;
 
-        currentTween = mainPanel.SlideTo(new Vector2(endX, 0), durationSlide, Ease.InCubic)
-            .OnComplete(ForceHide);
+        var seq = DOTween.Sequence();
+        seq.Append(self.SlideTo(new Vector2(endX, 0), durationSlide, Ease.InCubic));
+        seq.AppendCallback(() => canvasGroup.SetCanvasState(false, 0f));
 
-        return currentTween;
+        currentTween = seq;
+        return seq;
     }
 
     private void ForceHide()
