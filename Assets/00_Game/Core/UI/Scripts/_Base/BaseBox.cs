@@ -16,8 +16,9 @@ public abstract class BaseBox<T> : MonoBehaviour where T : BaseBox<T>
     private static AsyncOperationHandle<GameObject> handle;
     private static bool isInstantiating;
 
-    protected static async UniTaskVoid Setup(string addressableKey, Transform parent, System.Action<T> callback)
+    public static async UniTaskVoid Setup(Transform parent, System.Action<T> callback)
     {
+        string addressableKey = typeof(T).Name;
         var instance = await GetInstanceAsync(addressableKey, parent);
         callback?.Invoke(instance);
     }

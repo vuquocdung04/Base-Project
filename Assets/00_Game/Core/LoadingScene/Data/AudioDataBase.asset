@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a65e260967c474a8c5ba83cb8564f4, type: 3}
   m_Name: AudioDataBase
   m_EditorClassIdentifier: 
-  audioFolder: {fileID: 102900000, guid: 9e0241e0ee92c3340bc02df004aae768, type: 3}
+  audioFolder: Assets/00_Game/Core/LoadingScene/Audio
   audioConfigs:
   - key: Click
     variants:
@@ -32,11 +32,6 @@ MonoBehaviour:
   - key: FreezeEnd
     variants:
     - {fileID: 8300000, guid: 87df63f7fe596ac438fd2f376b11f2a0, type: 3}
-    minPitch: 0.7
-    maxPitch: 1.1
-  - key: Toast
-    variants:
-    - {fileID: 8300000, guid: 5ed60df51f85948c185d3f974d76333e, type: 3}
     minPitch: 0.7
     maxPitch: 1.1
   - key: sfx-GiftboxOpen
@@ -67,6 +62,11 @@ MonoBehaviour:
   - key: sfx-Win
     variants:
     - {fileID: 8300000, guid: c18767893d6d14b4eaa15d4f3be56bca, type: 3}
+    minPitch: 0.7
+    maxPitch: 1.1
+  - key: Toast
+    variants:
+    - {fileID: 8300000, guid: 5ed60df51f85948c185d3f974d76333e, type: 3}
     minPitch: 0.7
     maxPitch: 1.1
   - key: GamePlay

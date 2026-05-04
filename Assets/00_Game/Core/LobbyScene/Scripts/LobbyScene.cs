@@ -19,8 +19,8 @@ public class LobbyScene : MonoBehaviour
                 ToastManager.Instance.ShowToast("Heart is full");
                 return;
             }
-            
-            MoreLivesBox.Setup(LobbyController.Instance.midCanvas, box =>
+
+            _ = MoreLivesBox.Setup(LobbyController.Instance.midCanvas, box =>
             {
                 box.Show();
             });
@@ -33,15 +33,15 @@ public class LobbyScene : MonoBehaviour
         var shopTcs = new UniTaskCompletionSource();
         var rankTcs = new UniTaskCompletionSource();
         var holder = LobbyController.Instance.botCanvas;
-        LobbyBox.Setup(holder, box =>
+        _ = LobbyBox.Setup(holder, box =>
         {
             box.Show();
             lobbyTcs.TrySetResult();
         });
 
-        ShopBox.Setup(holder, _ => shopTcs.TrySetResult());
+        _ = ShopBox.Setup(holder, _ => shopTcs.TrySetResult());
 
-        RankBox.Setup(holder, _ => rankTcs.TrySetResult());
+        _ = RankBox.Setup(holder, _ => rankTcs.TrySetResult());
         
         await UniTask.WhenAll(lobbyTcs.Task, shopTcs.Task, rankTcs.Task);
         

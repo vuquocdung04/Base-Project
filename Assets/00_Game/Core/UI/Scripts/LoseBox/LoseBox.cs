@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class LoseBox : BaseBox<LoseBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder,System.Action<LoseBox> onComplete)
-    {
-        return Setup(PathPrefabs.LOSE_BOX,parentHolder, onComplete);
-    }
     public Button btnClose;
     public Button btnCloseByPanel;
     public Button btnRetry;

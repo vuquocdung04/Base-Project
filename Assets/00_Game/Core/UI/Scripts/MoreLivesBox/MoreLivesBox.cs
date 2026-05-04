@@ -6,11 +6,6 @@ using UnityEngine.UI;
 
 public class MoreLivesBox : BaseBox<MoreLivesBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder, System.Action<MoreLivesBox> onComplete)
-    {
-        return Setup(PathPrefabs.MORE_LIVES_BOX, parentHolder, onComplete);
-    }
-
     public Button btnClose;
     public Button btnCloseByPanel;
     public TextMeshProUGUI txtDisplayLives;

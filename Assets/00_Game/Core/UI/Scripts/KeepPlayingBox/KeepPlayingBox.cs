@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class KeepPlayingBox : BaseBox<KeepPlayingBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder, System.Action<KeepPlayingBox> onComplete)
-    {
-        return Setup(PathPrefabs.KEEP_PLAYING_BOX, parentHolder, onComplete);
-    }
-
     public Button btnClose;
     public Button btnCloseByPanel;
     public Button btnBuyTime;

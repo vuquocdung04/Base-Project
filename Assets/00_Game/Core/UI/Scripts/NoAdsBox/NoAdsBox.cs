@@ -4,11 +4,6 @@ using UnityEngine.UI;
 
 public class NoAdsBox : BaseBox<NoAdsBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder, System.Action<NoAdsBox> onComplete)
-    {
-        return Setup(PathPrefabs.NO_ADS_BOX, parentHolder, onComplete);
-    }
-
     public Button btnClose;
     public Button btnCloseByPanel;
 

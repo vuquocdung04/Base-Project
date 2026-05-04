@@ -4,11 +4,6 @@ using UnityEngine.UI;
 
 public class SettingBox : BaseBox<SettingBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder, System.Action<SettingBox> onComplete)
-    {
-        return Setup(PathPrefabs.SETTING_BOX, parentHolder, onComplete);
-    }
-
     public Button btnClose;
     public Button btnCloseByPanel;
 

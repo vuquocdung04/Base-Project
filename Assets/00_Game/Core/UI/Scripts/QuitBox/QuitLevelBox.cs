@@ -4,11 +4,6 @@ using UnityEngine.UI;
 
 public class QuitLevelBox : BaseBox<QuitLevelBox>
 {
-    public static UniTaskVoid Setup(Transform parentHolder,System.Action<QuitLevelBox> onComplete)
-    {
-        return Setup(PathPrefabs.DAILY_QUEST_BOX,parentHolder, onComplete);
-    }
-
     public Button btnClose;
     public Button btnCloseByPanel;
 
