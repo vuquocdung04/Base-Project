@@ -127,32 +127,31 @@ public class SceneName
 
 public class PathPrefabs
 {
-    private const string DEFAULT_PATH = "Assets/00_Game/Core/UI/Prefabs/";
-    public const string SETTING_BOX = DEFAULT_PATH + "SettingBox.prefab";
+    public const string SETTING_BOX ="SettingBox";
 
-    public const string SHOP_BOX = DEFAULT_PATH + "ShopBox.prefab";
-    public const string RANK_BOX = DEFAULT_PATH + "RankBox.prefab";
+    public const string SHOP_BOX = "ShopBox";
+    public const string RANK_BOX = "RankBox";
 
-    public const string LOBBY_BOX = DEFAULT_PATH + "LobbyBox.prefab";
+    public const string LOBBY_BOX = "LobbyBox";
 
-    public const string MORE_LIVES_BOX = DEFAULT_PATH + "MoreLivesBox.prefab";
-    public const string NO_ADS_BOX = DEFAULT_PATH + "NoAdsBox.prefab";
+    public const string MORE_LIVES_BOX ="MoreLivesBox";
+    public const string NO_ADS_BOX = "NoAdsBox";
 
-    public const string WHEEL_SPIN_BOX = DEFAULT_PATH + "WheelSpinBox.prefab";
+    public const string WHEEL_SPIN_BOX = "WheelSpinBox";
 
-    public const string QUIT_LEVEL_BOX = DEFAULT_PATH + "QuitLevelBox.prefab";
+    public const string QUIT_LEVEL_BOX =  "QuitLevelBox";
 
-    public const string RESULT_DISPLAY_SKIN_BOX = DEFAULT_PATH + "ResultDisplaySkinBox.prefab";
-    public const string WIN_BOX = DEFAULT_PATH + "WinBox.prefab";
-    public const string KEEP_PLAYING_BOX = DEFAULT_PATH + "KeepPlayingBox.prefab";
-    public const string LOSE_BOX = DEFAULT_PATH + "LoseBox.prefab";
-    public const string BUY_SUCCESS_BOX = DEFAULT_PATH + "BuySuccessBox.prefab";
-    public const string NEW_BOOSTER_UNLOCK_BOX = DEFAULT_PATH + "NewBoosterUnlockBox.prefab";
-    public const string BUY_BOOSTER_BOX = DEFAULT_PATH + "BuyBoosterBox.prefab";
-    public const string SKIP_ORDER_BOX = DEFAULT_PATH + "SkipOrderBox.prefab";
-    public const string VIDEO_BAR_BOX = DEFAULT_PATH + "VideoBarBox.prefab";
-    public const string DAILY_QUEST_BOX = DEFAULT_PATH + "DailyQuestBox.prefab";
-    public const string GILT_OPEN_BOX = DEFAULT_PATH + "GiftOpenBox.prefab";
+    public const string RESULT_DISPLAY_SKIN_BOX ="ResultDisplaySkinBox";
+    public const string WIN_BOX =  "WinBox";
+    public const string KEEP_PLAYING_BOX =  "KeepPlayingBox";
+    public const string LOSE_BOX =   "LoseBox";
+    public const string BUY_SUCCESS_BOX =   "BuySuccessBox";
+    public const string NEW_BOOSTER_UNLOCK_BOX =   "NewBoosterUnlockBox";
+    public const string BUY_BOOSTER_BOX =   "BuyBoosterBox";
+    public const string SKIP_ORDER_BOX =   "SkipOrderBox";
+    public const string VIDEO_BAR_BOX =   "VideoBarBox";
+    public const string DAILY_QUEST_BOX =   "DailyQuestBox";
+    public const string GILT_OPEN_BOX =   "GiftOpenBox";
 }
 
 public static class UseProfile

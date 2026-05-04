@@ -9,7 +9,6 @@ public class GameManager : Singleton<GameManager>
     public LocalizationManager localizationManager;
     public LivesManager livesManager;
     [SerializeField] private LoadingBox loadingBox;
-    [SerializeField] private FirebaseSetup firebaseSetup;
     public ToastManager toastManager;
     
     
@@ -27,8 +26,8 @@ public class GameManager : Singleton<GameManager>
         loadingBox.Init();
         
         var load50Task = loadingBox.LoadingAsync(0.5f, loadingStepDuration);
-        firebaseSetup.Init();
-        await UniTask.WaitUntil(() => firebaseSetup.IsActiveRemote);
+        //firebaseSetup.Init();
+        //await UniTask.WaitUntil(() => firebaseSetup.IsActiveRemote);
         dataRepo.Init();
         fxManager.Init();
         audioManager.Init();

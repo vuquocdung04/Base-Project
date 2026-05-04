@@ -405,50 +405,6 @@ MonoBehaviour:
   fadeOutDuration: 0.5
   scaleEase: 27
   flyEase: 2
---- !u!1 &363669732
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 363669733}
-  - component: {fileID: 363669734}
-  m_Layer: 0
-  m_Name: FireBaseSetup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &363669733
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363669732}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 643601519}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &363669734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363669732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 469233dd6deb78e4ea39b26dbb6e5f7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FirebaseSetup
 --- !u!1 &474268671
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +741,6 @@ Transform:
   - {fileID: 1730948398}
   - {fileID: 1373294504}
   - {fileID: 1828064795}
-  - {fileID: 363669733}
   - {fileID: 175757013}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -808,7 +763,6 @@ MonoBehaviour:
   localizationManager: {fileID: 1373294505}
   livesManager: {fileID: 1828064796}
   loadingBox: {fileID: 783918718}
-  firebaseSetup: {fileID: 363669734}
   toastManager: {fileID: 175757017}
   isSkipOutPhase: 1
   loadingStepDuration: 0.1
@@ -1197,7 +1151,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localizationDataBase: {fileID: 11400000, guid: 13f72042c9df5bc4694b9fc94c5b6d5f, type: 2}
   audioData: {fileID: 11400000, guid: 5f74a99ad3c90864a83b736ffb298fef, type: 2}
-  fireBaseConfigSO: {fileID: 11400000, guid: 0a15bb385459841058c82b9323fdcb12, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
