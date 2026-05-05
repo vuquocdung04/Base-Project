@@ -16,17 +16,26 @@ public class AddressableAutoTool : OdinEditorWindow
     [MenuItem("Tools/Auto Addressable & PathPrefabs")]
     private static void OpenWindow()
     {
-        GetWindow<AddressableAutoTool>("Auto Addressable").Show();
+        var window = GetWindow<AddressableAutoTool>("Auto Addressable");
+        window.LoadPrefs(); // Load lại đường dẫn cũ đã lưu
+        window.Show();
     }
 
-    [Title("Cấu hình Thư mục")]
+    [Title("Cấu hình Thư mục Prefab")]
     [FolderPath(RequireExistingPath = true)]
-    [InfoBox("Chọn thư mục chứa các UI Prefab (Ví dụ: Assets/Prefabs/UI)")]
+    [InfoBox("Chọn thư mục chứa các UI Prefab (Tool sẽ tự nhớ đường dẫn này cho lần sau)")]
+    [OnValueChanged("SavePrefs")] // Tự động lưu mỗi khi bạn thay đổi đường dẫn
     public string prefabFolderPath;
 
-    [FolderPath(RequireExistingPath = true)]
-    [InfoBox("Chọn thư mục để lưu file PathPrefabs.cs (Ví dụ: Assets/Scripts/Data)")]
-    public string scriptOutputFolder;
+    private void LoadPrefs()
+    {
+        prefabFolderPath = EditorPrefs.GetString("AutoTool_PrefabPath", "Assets/");
+    }
+
+    private void SavePrefs()
+    {
+        EditorPrefs.SetString("AutoTool_PrefabPath", prefabFolderPath);
+    }
 
     [Button("⚡ Tự Động Tích Addressable & Sinh Script", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
     private void ProcessPrefabs()
@@ -37,24 +46,14 @@ public class AddressableAutoTool : OdinEditorWindow
             return;
         }
 
-        if (string.IsNullOrEmpty(scriptOutputFolder) || !AssetDatabase.IsValidFolder(scriptOutputFolder))
-        {
-            Debug.LogError("Vui lòng chọn thư mục lưu script hợp lệ!");
-            return;
-        }
-
-        // 1. Lấy Settings của Addressable (Bắt buộc phải có file AddressableAssetSettings trong project)
         AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
         if (settings == null)
         {
-            Debug.LogError("Không tìm thấy Addressable Settings! Vui lòng cài đặt Addressables và tạo Settings trước.");
+            Debug.LogError("Không tìm thấy Addressable Settings!");
             return;
         }
 
-        // Dùng group mặc định (Default Local Group)
         AddressableAssetGroup group = settings.DefaultGroup;
-
-        // Quét toàn bộ Prefab trong thư mục đã chọn
         string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { prefabFolderPath });
         List<string> generatedConstants = new List<string>();
 
@@ -63,24 +62,44 @@ public class AddressableAutoTool : OdinEditorWindow
             string assetPath = AssetDatabase.GUIDToAssetPath(guid);
             string prefabName = Path.GetFileNameWithoutExtension(assetPath);
 
-            // 2. Tự động thêm vào Addressable và đặt Address = Tên Prefab
             AddressableAssetEntry entry = settings.CreateOrMoveEntry(guid, group, readOnly: false, postEvent: false);
             entry.address = prefabName;
 
-            // 3. Xử lý chuỗi: Chuyển "KeepPlayingBox" thành "KEEP_PLAYING_BOX"
             string constName = Regex.Replace(prefabName, "([a-z])([A-Z])", "$1_$2").ToUpper();
             generatedConstants.Add($"    public const string {constName} = \"{prefabName}\";");
         }
 
-        // Lưu lại thay đổi của Addressables
         settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, null, true);
         AssetDatabase.SaveAssets();
 
-        // 4. Sinh file PathPrefabs.cs
-        string scriptPath = Path.Combine(scriptOutputFolder, "PathPrefabs.cs").Replace("\\", "/");
+        // TỰ ĐỘNG TÌM HOẶC TẠO ĐƯỜNG DẪN SCRIPT (Không cần kéo thả nữa)
+        string scriptPath = AutoDetectScriptPath();
         GenerateScript(scriptPath, generatedConstants);
 
-        Debug.Log($"<color=green>[Thành Công]</color> Đã xử lý {prefabGuids.Length} prefabs và tạo file PathPrefabs tại {scriptPath}");
+        Debug.Log($"<color=green>[Thành Công]</color> Đã update {prefabGuids.Length} prefabs. File lưu tại: {scriptPath}");
+    }
+
+    private string AutoDetectScriptPath()
+    {
+        // 1. Quét toàn bộ project tìm file tên là "PathPrefabs"
+        string[] foundGuids = AssetDatabase.FindAssets("PathPrefabs t:MonoScript");
+        
+        if (foundGuids.Length > 0)
+        {
+            // Trả về đường dẫn của file nếu đã tồn tại (dù bạn vứt nó ở ngóc ngách nào)
+            return AssetDatabase.GUIDToAssetPath(foundGuids[0]);
+        }
+
+        // 2. Nếu là lần chạy đầu tiên (chưa có file), tự động tạo thư mục mặc định
+        string defaultFolder = "Assets/Scripts/Data";
+        
+        if (!AssetDatabase.IsValidFolder("Assets/Scripts")) 
+            AssetDatabase.CreateFolder("Assets", "Scripts");
+            
+        if (!AssetDatabase.IsValidFolder(defaultFolder)) 
+            AssetDatabase.CreateFolder("Assets/Scripts", "Data");
+
+        return $"{defaultFolder}/PathPrefabs.cs";
     }
 
     private void GenerateScript(string path, List<string> constants)
@@ -99,7 +118,6 @@ public class AddressableAutoTool : OdinEditorWindow
             writer.WriteLine("}");
         }
         
-        // Yêu cầu Unity compile lại script vừa sinh ra
         AssetDatabase.Refresh();
     }
 }
