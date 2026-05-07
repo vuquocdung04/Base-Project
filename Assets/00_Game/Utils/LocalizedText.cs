@@ -19,7 +19,7 @@ public class LocalizedText : MonoBehaviour
         
         if (!isInitialized)
         {
-            this.RegisterListener(EventID.CHANGE_LOCALIZATION, OnLanguageChanged);
+            //this.RegisterListener(EventID.CHANGE_LOCALIZATION, OnLanguageChanged);
             isInitialized = true;
         }
         Refresh();
@@ -29,7 +29,7 @@ public class LocalizedText : MonoBehaviour
     {
         if (isInitialized)
         {
-            this.RemoveListener(EventID.CHANGE_LOCALIZATION, OnLanguageChanged);
+            //this.RemoveListener(EventID.CHANGE_LOCALIZATION, OnLanguageChanged);
             isInitialized = false; // Reset flag khi disable
         }
     }

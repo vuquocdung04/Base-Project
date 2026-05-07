@@ -40,7 +40,7 @@ public class LocalizationManager : MonoBehaviour
         }
 
         currentLanguage = language;
-        this.PostEvent(EventID.CHANGE_LOCALIZATION);
+        //this.PostEvent(EventID.CHANGE_LOCALIZATION);
     }
 
     public string GetString(string key)

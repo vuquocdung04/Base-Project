@@ -1,4 +1,7 @@
 using System;
+using System.Threading;
+using DG.Tweening;
+using EventDispatcher;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +27,8 @@ public class BoosterItem : MonoBehaviour
 {
     [SerializeField] private BoosterType type;
     public BoosterType Type => type;
-    public Action<BoosterType> OnBoosterUseRequest;
-    public Action<BoosterType> OnBoosterCancelRequest;
+
+    public Button btnMain;
 
     [Header("State UI Containers")]
     [SerializeField] private GameObject unlockedContainer;
@@ -48,7 +51,16 @@ public class BoosterItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI unlockLevelText;
 
     private BoosterState _currentState;
+    private Tween _cooldownTween;
 
+    private void Start()
+    {
+        btnMain.OnClicked(OnButtonClicked);
+    }
+    private void OnDestroy()
+    {
+        CancelCooldownTask();
+    }
     public void ChangeState(BoosterState newState)
     {
         _currentState = newState;
@@ -90,23 +102,47 @@ public class BoosterItem : MonoBehaviour
         }
 
     }
-
-    public void UpdateCooldownUI(float timeLeft, float totalCooldown)
+    private void UpdateCooldownUI(float timeLeft, float totalCooldown)
     {
         if (_currentState != BoosterState.Cooldown) return;
 
         cooldownFillImage.fillAmount = timeLeft / totalCooldown;
         cooldownText.text = Mathf.CeilToInt(timeLeft).ToString();
     }
+    public void StartCooldown(float duration)
+    {
+        ChangeState(BoosterState.Cooldown);
+
+
+        CancelCooldownTask();
+
+        _cooldownTween = DOVirtual.Float(duration, 0f, duration, (timeLeft) =>
+        {
+            UpdateCooldownUI(timeLeft, duration);
+        })
+        .SetEase(Ease.Linear)
+        .OnComplete(() =>
+        {
+            ChangeState(BoosterState.Available);
+        });
+    }
+    private void CancelCooldownTask()
+    {
+        if (_cooldownTween != null)
+        {
+            _cooldownTween.Kill();
+            _cooldownTween = null;
+        }
+    }
     private void OnButtonClicked()
     {
         if (_currentState == BoosterState.Available)
         {
-            OnBoosterUseRequest?.Invoke(type);
+            this.PostEvent(EventID.BOOSTER_USE_REQUEST, type);
         }
         else if (_currentState == BoosterState.InUse)
         {
-            OnBoosterCancelRequest?.Invoke(type);
+            this.PostEvent(EventID.BOOSTER_CANCEL_REQUEST, type);
         }
         else if (_currentState == BoosterState.Empty)
         {
