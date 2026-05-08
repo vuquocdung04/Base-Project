@@ -3,6 +3,7 @@ public class GamePlayController : Singleton<GamePlayController>
 {
     public GameScene gameScene;
     public BoosterController boosterController;
+    public HandAnimation handAnimation;
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -13,5 +14,6 @@ public class GamePlayController : Singleton<GamePlayController>
     {
         gameScene.Init();
         boosterController.Init();
+        handAnimation.Init();
     }
 }
