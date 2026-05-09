@@ -16,7 +16,10 @@ public class LobbyBox : BaseBox<LobbyBox>
         btnSetting.OnClicked(delegate { _ = SettingBox.Setup(holder, box => { box.Show(); }); });
         btnAvatar.OnClicked(delegate { });
         btnNoAds.OnClicked(delegate { _ = NoAdsBox.Setup(holder, box => { box.Show(); }); });
-        btnPlay.OnClicked(delegate { _ = MoreLivesBox.Setup(LobbyController.Instance.midCanvas, box => { box.Show(); }); });
+        btnPlay.OnClicked(delegate
+        {
+            FXManager.Instance.LoadSceneWithIrisWipe(SceneName.GAME_PLAY);
+        });
     }
 
     protected override void InitState()

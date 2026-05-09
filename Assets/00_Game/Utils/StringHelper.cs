@@ -120,265 +120,55 @@ public class StringHelper
 
 public class SceneName
 {
-    public const string GAME_PLAY = "GamePlay";
+    public const string GAME_PLAY = "GamePlayScene";
     public const string LOBBY_SCENE = "LobbyScene";
     public const string LOADING_SCENE = "LoadingScene";
 }
-
 
 public static class UseProfile
 {
     public static int DefaultBoosterAmount = 3;
     public static int DefaultStartingCoins = 500;
 
-    public static int Level
-    {
-        get => PlayerPrefs.GetInt(StringHelper.LEVEL, 1);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.LEVEL, value);
-            PlayerPrefs.Save();
-        }
-    }
+    public static readonly PrefVar<int> Level = new(StringHelper.LEVEL, 1);
+    public static readonly PrefVar<int> Booster1 = new(StringHelper.BOOSTER_1, DefaultBoosterAmount);
+    public static readonly PrefVar<int> Booster2 = new(StringHelper.BOOSTER_2, DefaultBoosterAmount);
+    public static readonly PrefVar<int> Booster3 = new(StringHelper.BOOSTER_3, DefaultBoosterAmount);
+    public static readonly PrefVar<int> Coin = new(StringHelper.COIN, DefaultStartingCoins);
+    
+    // --- SETTINGS ---
+    public static readonly PrefVar<bool> OnMusic = new(StringHelper.ONOFF_MUSIC, true);
+    public static readonly PrefVar<bool> OnSound = new(StringHelper.ONOFF_SOUND, true);
+    public static readonly PrefVar<bool> OnVib = new(StringHelper.ONOFF_VIB, true);
 
-    public static int Booster1
-    {
-        get => PlayerPrefs.GetInt(StringHelper.BOOSTER_1,
-            DefaultBoosterAmount);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.BOOSTER_1, value);
-            PlayerPrefs.Save();
-        }
-    }
+    // --- TIM & QUẢNG CÁO ---
+    public static readonly PrefVar<int> Heart = new(StringHelper.HEART, 5);
+    public static readonly PrefVar<bool> IsUnlimitedHeart = new(StringHelper.IS_UNLIMITER_HEART, false);
+    public static readonly PrefVar<bool> IsRemoveAds = new(StringHelper.REMOVE_ADS, false);
 
-    public static int Booster2
-    {
-        get => PlayerPrefs.GetInt(StringHelper.BOOSTER_2,
-            DefaultBoosterAmount);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.BOOSTER_2, value);
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static int Booster3
-    {
-        get => PlayerPrefs.GetInt(StringHelper.BOOSTER_3,
-            DefaultBoosterAmount);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.BOOSTER_3, value);
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static int CurrentCoin
-    {
-        get => PlayerPrefs.GetInt(StringHelper.COIN,
-            DefaultStartingCoins);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.COIN, value);
-            PlayerPrefs.Save();
-        }
-    }
-
-    #region SOUND_MUSIC_VIB
-
-    #endregion
-
-    public static bool OnMusic
-    {
-        get => PlayerPrefs.GetInt(StringHelper.ONOFF_MUSIC, 1) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.ONOFF_MUSIC, value ? 1 : 0);
-            AudioManager.Instance.RefreshMusicVolume();
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static bool OnSound
-    {
-        get => PlayerPrefs.GetInt(StringHelper.ONOFF_SOUND, 1) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.ONOFF_SOUND, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static bool OnVib
-    {
-        get => PlayerPrefs.GetInt(StringHelper.ONOFF_VIB, 1) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.ONOFF_VIB, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
-    // Heart
-
-    #region HEART
-
-    #endregion
-
-    public static int Heart
-    {
-        get => PlayerPrefs.GetInt(StringHelper.HEART, 5);
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.HEART, value);
-            PlayerPrefs.Save();
-        }
-    }
-
+    // --- TUTORIAL & TIẾN TRÌNH ---
+    public static readonly PrefVar<bool> IsDoneBooster1 = new(StringHelper.IS_DONE_TUT_BOOSTER_1, false);
+    public static readonly PrefVar<bool> IsDoneBooster2 = new(StringHelper.IS_DONE_TUT_BOOSTER_2, false);
+    public static readonly PrefVar<bool> IsDoneBooster3 = new(StringHelper.IS_DONE_TUT_BOOSTER_3, false);
+    // ========================================================
+    // --- XỬ LÝ THỜI GIAN (TÍCH HỢP TIMEMANAGER) ---
+    // ========================================================
+    
     public static DateTime TimeUnlimitedHeart
     {
-        get
-        {
-            if (PlayerPrefs.HasKey(StringHelper.TIME_UNLIMITER_HEART))
-            {
-                var temp = Convert.ToInt64(PlayerPrefs.GetString(StringHelper.TIME_UNLIMITER_HEART));
-                return DateTime.FromBinary(temp);
-            }
-            else
-            {
-                var newDateTime = DateTime.Now.AddDays(-1);
-                PlayerPrefs.SetString(StringHelper.TIME_UNLIMITER_HEART, newDateTime.ToBinary().ToString());
-                PlayerPrefs.Save();
-                return newDateTime;
-            }
-        }
-        set
-        {
-            PlayerPrefs.SetString(StringHelper.TIME_UNLIMITER_HEART, value.ToBinary().ToString());
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static bool IsUnlimitedHeart
-    {
-        get => PlayerPrefs.GetInt(StringHelper.IS_UNLIMITER_HEART, 0) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.IS_UNLIMITER_HEART, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
+        get => DateTime.FromBinary(GamePrefs.Get(StringHelper.TIME_UNLIMITER_HEART, TimeManager.GetCurrentTime().AddDays(-1).ToBinary()));
+        set => GamePrefs.Set(StringHelper.TIME_UNLIMITER_HEART, value.ToBinary());
     }
 
     public static DateTime TimeLastOverHeart
     {
-        get
-        {
-            if (PlayerPrefs.HasKey(StringHelper.TIME_LAST_OVER_HEART))
-            {
-                var temp = Convert.ToInt64(PlayerPrefs.GetString(StringHelper.TIME_LAST_OVER_HEART));
-                return DateTime.FromBinary(temp);
-            }
-            else
-            {
-                var newDateTime = DateTime.Now;
-                PlayerPrefs.SetString(StringHelper.TIME_LAST_OVER_HEART, newDateTime.ToBinary().ToString());
-                PlayerPrefs.Save();
-                return newDateTime;
-            }
-        }
-        set
-        {
-            PlayerPrefs.SetString(StringHelper.TIME_LAST_OVER_HEART, value.ToBinary().ToString());
-            PlayerPrefs.Save();
-        }
-    }
-
-    #region REMOVE_ADS
-
-    #endregion
-
-    public static bool IsRemoveAds
-    {
-        get { return PlayerPrefs.GetInt(StringHelper.REMOVE_ADS, 0) == 1; }
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.REMOVE_ADS, value ? 1 : 0);
-            PlayerPrefs.Save();
-            // if (value && GoogleAds.Instance != null)
-            // {
-            //     GoogleAds.Instance.DestroyBanner();
-            // }
-        }
-    }
-    
-    #region Bool Tut
-
-    #endregion
-
-    public static bool IsDoneBooster1
-    {
-        get => PlayerPrefs.GetInt(StringHelper.IS_DONE_TUT_BOOSTER_1, 0) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.IS_DONE_TUT_BOOSTER_1, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static bool IsDoneBooster2
-    {
-        get => PlayerPrefs.GetInt(StringHelper.IS_DONE_TUT_BOOSTER_2, 0) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.IS_DONE_TUT_BOOSTER_2, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
-    public static bool IsDoneBooster3
-    {
-        get => PlayerPrefs.GetInt(StringHelper.IS_DONE_TUT_BOOSTER_3, 0) == 1;
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.IS_DONE_TUT_BOOSTER_3, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
-
-    //VIDEO BAR
-
-    public static int CurrentProgressVideoBar
-    {
-        get { return PlayerPrefs.GetInt(StringHelper.CURRENT_PROGRESS_VIDEO_BAR, 0); }
-        set
-        {
-            PlayerPrefs.SetInt(StringHelper.CURRENT_PROGRESS_VIDEO_BAR, value);
-            PlayerPrefs.Save();
-        }
+        get => DateTime.FromBinary(GamePrefs.Get(StringHelper.TIME_LAST_OVER_HEART, TimeManager.GetCurrentTime().ToBinary()));
+        set => GamePrefs.Set(StringHelper.TIME_LAST_OVER_HEART, value.ToBinary());
     }
 
     public static DateTime LastTimeLogin
     {
-        get
-        {
-            if (PlayerPrefs.HasKey(StringHelper.LAST_TIME_LOGIN))
-            {
-                var temp = Convert.ToInt64(PlayerPrefs.GetString(StringHelper.LAST_TIME_LOGIN));
-                return DateTime.FromBinary(temp);
-            }
-            else
-            {
-                var newDateTime = DateTime.Now;
-                PlayerPrefs.SetString(StringHelper.LAST_TIME_LOGIN, newDateTime.ToBinary().ToString());
-                PlayerPrefs.Save();
-                return newDateTime;
-            }
-        }
-        set
-        {
-            PlayerPrefs.SetString(StringHelper.LAST_TIME_LOGIN, value.ToBinary().ToString());
-            PlayerPrefs.Save();
-        }
+        get => DateTime.FromBinary(GamePrefs.Get(StringHelper.LAST_TIME_LOGIN, TimeManager.GetCurrentTime().ToBinary()));
+        set => GamePrefs.Set(StringHelper.LAST_TIME_LOGIN, value.ToBinary());
     }
 }

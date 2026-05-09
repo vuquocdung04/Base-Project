@@ -31,6 +31,7 @@ public partial class FXManager
     private async UniTaskVoid IrisWipeAsync(string sceneName, bool skipOutPhase)
     {
         isNextSceneReady = false;
+
         SetupCanvasCamera();
 
         if (skipOutPhase)
@@ -52,7 +53,7 @@ public partial class FXManager
         // Scene mới đã load xong -> Cập nhật lại camera mới cho Canvas
         SetupCanvasCamera();
         SetWipeState(1f, 0f);
-        
+
         await UniTask.WaitUntil(() => isNextSceneReady);
         // Chạy hiệu ứng mở ra
         await WipeMat.DOFloat(1.5f, "_Radius", transitionDurationIn).ToUniTask();
@@ -73,8 +74,11 @@ public partial class FXManager
         {
             wipeCanvas.gameObject.SetActive(true);
         }
-
-        wipeCanvas.worldCamera = Camera.main;
+        GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+        if (camObj != null)
+        {
+            wipeCanvas.worldCamera = camObj.GetComponent<Camera>();
+        }
     }
 
     private void SetWipeState(float isInvert, float radius)

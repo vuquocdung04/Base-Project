@@ -92,7 +92,7 @@ public class LivesManager : MonoBehaviour
         TimeSpan timeRemaining = UseProfile.TimeUnlimitedHeart - currentTime;
         if (timeRemaining.TotalSeconds <= 0)
         {
-            UseProfile.IsUnlimitedHeart = false;
+            UseProfile.IsUnlimitedHeart.Value = false;
         }
     }
 
@@ -112,11 +112,11 @@ public class LivesManager : MonoBehaviour
 
             if (newHeartCount >= maxHearts)
             {
-                UseProfile.Heart = maxHearts;
+                UseProfile.Heart.Value = maxHearts;
             }
             else
             {
-                UseProfile.Heart = newHeartCount;
+                UseProfile.Heart.Value = newHeartCount;
                 TimeSpan timeUsedForRefill = TimeSpan.FromSeconds(heartsGained * RefillTimeSeconds);
                 UseProfile.TimeLastOverHeart = UseProfile.TimeLastOverHeart.Add(timeUsedForRefill);
             }
@@ -135,8 +135,8 @@ public class LivesManager : MonoBehaviour
         UpdateHeartRefill(true);
         if (UseProfile.Heart > 0)
         {
-            bool wasAtMax = (UseProfile.Heart == maxHearts);
-            UseProfile.Heart -= 1;
+            bool wasAtMax = UseProfile.Heart == maxHearts;
+            UseProfile.Heart.Value -= 1;
 
             if (wasAtMax)
                 UseProfile.TimeLastOverHeart = TimeManager.GetCurrentTime();
@@ -161,7 +161,7 @@ public class LivesManager : MonoBehaviour
             newEndTime = currentTime.AddMinutes(minutes);
         }
 
-        UseProfile.IsUnlimitedHeart = true;
+        UseProfile.IsUnlimitedHeart.Value = true;
         UseProfile.TimeUnlimitedHeart = newEndTime;
 
         Debug.Log($"Đã kích hoạt {minutes} phút unlimited. Hết hạn vào: {newEndTime}");

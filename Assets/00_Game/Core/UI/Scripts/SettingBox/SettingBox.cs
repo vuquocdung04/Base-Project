@@ -24,19 +24,19 @@ public class SettingBox : BaseBox<SettingBox>
         
         btnSound.OnClicked(delegate
         {
-            UseProfile.OnSound = !UseProfile.OnSound;
+            UseProfile.OnSound.Value = !UseProfile.OnSound;
             imgSound.SetSprite(UseProfile.OnSound ? sprOn : sprOff);
         });
 
         btnVib.OnClicked(delegate
         {
-            UseProfile.OnVib = !UseProfile.OnVib;
+            UseProfile.OnVib.Value = !UseProfile.OnVib;
             imgVib.SetSprite(UseProfile.OnVib ? sprOn : sprOff);
         });
 
         btnMusic.OnClicked(delegate
         {
-            UseProfile.OnMusic = !UseProfile.OnMusic;
+            UseProfile.OnMusic.Value = !UseProfile.OnMusic;
             imgMusic.SetSprite(UseProfile.OnMusic ? sprOn : sprOff);
         });
 

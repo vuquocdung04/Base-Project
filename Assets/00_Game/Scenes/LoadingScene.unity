@@ -2348,7 +2348,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -430976499
   m_SortingOrder: 200
   m_TargetDisplay: 0
 --- !u!1 &5105282254964078957
@@ -2362,7 +2362,7 @@ GameObject:
   - component: {fileID: 567450555056430888}
   - component: {fileID: 3224336863966138430}
   - component: {fileID: 5105282254964078958}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2408,7 +2408,7 @@ GameObject:
   - component: {fileID: 4322210418281459487}
   - component: {fileID: 8974919661717978588}
   - component: {fileID: 3193090460063414215}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Iris Wipe Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
