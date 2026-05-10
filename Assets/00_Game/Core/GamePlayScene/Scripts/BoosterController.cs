@@ -2,26 +2,60 @@ using System.Collections.Generic;
 using EventDispatcher;
 using UnityEngine;
 
-public partial class BoosterController : MonoBehaviour
+public partial class BoosterController : StaffSingleton<BoosterController>
 {
-    public List<BoosterItem> boosterItems;
+    private List<BoosterItem> boosterItems;
     private BoosterItem _currentActiveBooster;
 
-    public void Init()
+    public override void Init()
     {
-        boosterItems.AddRange(GetComponentsInChildren<BoosterItem>());
+        boosterItems = new List<BoosterItem>(GetComponentsInChildren<BoosterItem>());
         foreach (var item in boosterItems) item.ChangeState(BoosterState.Available);
 
         this.RegisterListener(EventID.BOOSTER_USE_REQUEST, OnBoosterUseRequest);
         this.RegisterListener(EventID.BOOSTER_CANCEL_REQUEST, OnBoosterCancelRequest);
+
+        CheckTutorialHighlight();
     }
 
-    void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         this.RemoveListener(EventID.BOOSTER_USE_REQUEST, OnBoosterUseRequest);
         this.RemoveListener(EventID.BOOSTER_CANCEL_REQUEST, OnBoosterCancelRequest);
     }
 
+    private void CheckTutorialHighlight()
+    {
+        int currentLevel = UseProfile.Level.Value;
+        int[] tutorialLevels = new int[] { 1, 6, 9 };
+        BoosterItem targetBooster = null;
+
+        void TryAssignBooster(int index, PrefVar<bool> isDoneFlag)
+        {
+            if (targetBooster != null) return;
+
+            if (tutorialLevels.Length > index && currentLevel == tutorialLevels[index] && !isDoneFlag.Value)
+            {
+                if (index < boosterItems.Count)
+                {
+                    targetBooster = boosterItems[index];
+                }
+            }
+        }
+
+        TryAssignBooster(0, UseProfile.IsDoneBooster1);
+        TryAssignBooster(1, UseProfile.IsDoneBooster2);
+        TryAssignBooster(2, UseProfile.IsDoneBooster3);
+
+        if (targetBooster != null)
+        {
+            HighlightSystem.Instance.Highlight(targetBooster.gameObject);
+            HandAnimation.Instance.PlayAnimUI(targetBooster.transform);
+                
+            Debug.LogError($"{targetBooster.gameObject.name}");
+        }
+    }
     private void OnBoosterUseRequest(object param)
     {
         BoosterType type = (BoosterType)param;

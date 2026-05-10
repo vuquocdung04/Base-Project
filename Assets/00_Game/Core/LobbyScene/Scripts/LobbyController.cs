@@ -1,6 +1,6 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-public class LobbyController : Singleton<LobbyController>
+public class LobbyController : LeaderSingleton<LobbyController>
 {
     public LobbyScene lobbyScene;
     [Header("UI Layers")]
@@ -12,7 +12,6 @@ public class LobbyController : Singleton<LobbyController>
     protected override void OnAwake()
     {
         base.OnAwake();
-        m_DontDestroyOnLoad = false;
         Init();
     }
 

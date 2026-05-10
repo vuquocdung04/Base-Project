@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class HandAnimation : MonoBehaviour
+public class HandAnimation : StaffSingleton<HandAnimation>
 {
     public Camera mainCam;
     public Transform handObj;
@@ -12,7 +12,7 @@ public class HandAnimation : MonoBehaviour
     private Tween objTween;
 
     private Vector3 defaultScale;
-    public void Init()
+    public override void Init()
     {
         handObj.gameObject.SetActive(false);
         handUI.gameObject.SetActive(false);
@@ -20,19 +20,12 @@ public class HandAnimation : MonoBehaviour
         handObj.localRotation = mainCam.transform.localRotation;
         defaultScale = handUI.localScale;
     }
-
-    [ContextMenu("test")]
-    public void Test()
-    {
-        PlayAnimUI(GamePlayController.Instance.boosterController.boosterItems[0].transform);
-    }
-
     public void PlayAnimUI(Transform target)
     {
         PlayHandAnim(handUI, target, ref uiTween);
     }
 
-    public void PlayAnimObj(Transform target)
+    public void PlayAnimObj(Transform target) 
     {
         PlayHandAnim(handObj, target, ref objTween);
     }

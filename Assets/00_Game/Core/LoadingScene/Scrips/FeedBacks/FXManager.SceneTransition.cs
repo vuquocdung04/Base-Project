@@ -41,7 +41,7 @@ public partial class FXManager
         else
         {
             SetWipeState(0f, 0f);
-            await WipeMat.DOFloat(1.5f, "_Radius", transitionDurationOut).ToUniTask();
+            await WipeMat.DOFloat(1.2f, "_Radius", transitionDurationOut).ToUniTask();
         }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -56,7 +56,7 @@ public partial class FXManager
 
         await UniTask.WaitUntil(() => isNextSceneReady);
         // Chạy hiệu ứng mở ra
-        await WipeMat.DOFloat(1.5f, "_Radius", transitionDurationIn).ToUniTask();
+        await WipeMat.DOFloat(1.2f, "_Radius", transitionDurationIn).ToUniTask();
 
         Debug.Log("Completed Transition");
         wipeCanvas.gameObject.SetActive(false);

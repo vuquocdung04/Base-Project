@@ -1,13 +1,15 @@
 
 using UnityEngine;
 
-public class GamePlayController : Singleton<GamePlayController>
+public class GamePlayController : LeaderSingleton<GamePlayController>
 {
     public Camera cameraUI;
     public Camera cameraGameplay;
     public GameScene gameScene;
     public BoosterController boosterController;
     public HandAnimation handAnimation;
+    public GameFlow gameFlow;
+    public InputController inputController;
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -17,8 +19,10 @@ public class GamePlayController : Singleton<GamePlayController>
     private void Init()
     {
         gameScene.Init();
-        boosterController.Init();
         handAnimation.Init();
+        boosterController.Init();
+        inputController.Init();
+        gameFlow.Init();
 
         FXManager.Instance.isNextSceneReady = true;
     }

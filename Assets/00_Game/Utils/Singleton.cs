@@ -1,57 +1,51 @@
 ﻿using UnityEngine;
 
+// --- INTERFACE CHUNG ---
+public interface IStaff { void BindInstance(); }
+public interface ILeader { void ForceBindAllStaffs(); }
 
 
-/// <summary>
-/// Use the singleton to manage persistent data between scenes.
-/// </summary>
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class ManagerSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance;
-    public bool m_DontDestroyOnLoad = true;
-
-    /// <summary>
-    /// Create the singleton instance if needed and call OnSingletonAwake().
-    /// </summary>
-    private void Awake()
+    public static T Instance { get; private set; }
+    protected virtual void Awake()
     {
-        if (Instance == null)
-        {
-            //If I am the first instance, make me the Singleton
-            Instance = this as T;
+        if (Instance == null) { Instance = this as T; DontDestroyOnLoad(gameObject); }
+        else if (this != Instance) Destroy(gameObject);
+        OnAwake();
+    }
+    protected virtual void OnAwake() { }
+}
 
-            if (transform.parent == null && m_DontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
-        }
-        else
-        {
-            //If a Singleton already exists and you find
-            //another reference in scene, destroy it!
-            if (this != Instance)
-            {
-                DestroyImmediate(this.gameObject);
-            }
-            return;
-        }
+public abstract class LeaderSingleton<T> : MonoBehaviour, ILeader where T : MonoBehaviour
+{
+    public static T Instance { get; private set; }
+    protected virtual void Awake()
+    {
+        if (Instance == null) Instance = this as T;
+        else if (this != Instance) { Destroy(gameObject); return; }
 
+        ForceBindAllStaffs();
         OnAwake();
     }
 
-    void OnDestroy()
+    public void ForceBindAllStaffs()
     {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        var staffs = GetComponentsInChildren<IStaff>(true);
+        foreach (var s in staffs) s.BindInstance();
+    }
+    protected virtual void OnAwake() { }
+}
+
+public abstract class StaffSingleton<T> : MonoBehaviour, IStaff where T : MonoBehaviour
+{
+    public static T Instance { get; private set; }
+
+    public void BindInstance()
+    {
+        if (Instance == null) Instance = this as T;
     }
 
-    /// <summary>
-    /// This method is called just after the singleton construction.
-    /// Override it to perform the initial setup.
-    /// </summary>
-    protected virtual void OnAwake()
-    {
-    }
+    protected virtual void OnDestroy() { if (Instance == this) Instance = null; }
+    public abstract void Init();
 }

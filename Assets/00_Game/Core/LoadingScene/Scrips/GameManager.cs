@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : ManagerSingleton<GameManager>
 {
     [SerializeField] private DataRepo dataRepo;
     [SerializeField] private FXManager fxManager;
@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     public LivesManager livesManager;
     [SerializeField] private LoadingBox loadingBox;
     public ToastManager toastManager;
-    
+    public HighlightSystem highlightSystem;
     
     public bool isSkipOutPhase;
     public float loadingStepDuration = 1f;
@@ -33,6 +33,7 @@ public class GameManager : Singleton<GameManager>
         audioManager.Init();
         livesManager.Init();
         toastManager.Init();
+        highlightSystem.Init();
         await load50Task;
         await loadingBox.LoadingAsync(1f, loadingStepDuration);
         fxManager.PrepareWipeClosed();

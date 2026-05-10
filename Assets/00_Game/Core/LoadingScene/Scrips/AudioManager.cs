@@ -61,10 +61,10 @@ public class AudioManager : MonoBehaviour
         {
             if (Time.time - lastTime < sfxSpamCooldown)
             {
-                return; 
+                return;
             }
         }
-        
+
         lastPlayTimes[lowerKey] = Time.time;
 
         if (!audioLookup.TryGetValue(lowerKey, out var config))
@@ -89,9 +89,35 @@ public class AudioManager : MonoBehaviour
         source.volume = lowerKey == "coin" ? 0.2f : currentSfxVolume;
 
         source.Play();
-        
+
         DespawnAfterPlayAsync(sfxObj, clipToPlay.length).Forget();
     }
+
+    public void PlaySfx(AudioClip clip, float pitch = 1)
+    {
+        if (!UseProfile.OnSound) return;
+
+        string clipName = clip.name.ToLower();
+        if (lastPlayTimes.TryGetValue(clipName, out float lastTime))
+        {
+            if (Time.time - lastTime < sfxSpamCooldown) return;
+        }
+        lastPlayTimes[clipName] = Time.time;
+
+        GameObject sfxObj = SimplePool2.Spawn(sfxPrefab, Vector3.zero, Quaternion.identity);
+        if (sfxObj == null) return;
+
+        AudioSource source = sfxObj.GetComponent<AudioSource>();
+        source.clip = clip;
+        source.pitch = pitch;
+        source.volume = currentSfxVolume;
+
+        source.Play();
+
+        DespawnAfterPlayAsync(sfxObj, clip.length).Forget();
+    }
+
+
     private async UniTaskVoid DespawnAfterPlayAsync(GameObject obj, float delay)
     {
         await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
