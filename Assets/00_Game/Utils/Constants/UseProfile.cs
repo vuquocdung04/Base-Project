@@ -22,9 +22,9 @@ public static class UseProfile
     public static readonly PrefVar<bool> IsRemoveAds = new(StringHelper.REMOVE_ADS, false);
 
     // --- TUTORIAL & TIẾN TRÌNH ---
+    public static readonly PrefVar<bool> IsDoneBooster0 = new(StringHelper.IS_DONE_TUT_BOOSTER_0, false);
     public static readonly PrefVar<bool> IsDoneBooster1 = new(StringHelper.IS_DONE_TUT_BOOSTER_1, false);
     public static readonly PrefVar<bool> IsDoneBooster2 = new(StringHelper.IS_DONE_TUT_BOOSTER_2, false);
-    public static readonly PrefVar<bool> IsDoneBooster3 = new(StringHelper.IS_DONE_TUT_BOOSTER_3, false);
     // ========================================================
     // --- XỬ LÝ THỜI GIAN (TÍCH HỢP TIMEMANAGER) ---
     // ========================================================

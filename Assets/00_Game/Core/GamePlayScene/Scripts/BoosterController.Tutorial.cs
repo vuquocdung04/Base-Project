@@ -22,9 +22,9 @@ public partial class BoosterController
             }
         }
 
-        TryAssignBooster(0, UseProfile.IsDoneBooster1);
-        TryAssignBooster(1, UseProfile.IsDoneBooster2);
-        TryAssignBooster(2, UseProfile.IsDoneBooster3);
+        TryAssignBooster(0, UseProfile.IsDoneBooster0);
+        TryAssignBooster(1, UseProfile.IsDoneBooster1);
+        TryAssignBooster(2, UseProfile.IsDoneBooster2);
 
         if (targetBooster != null)
         {
@@ -39,9 +39,9 @@ public partial class BoosterController
     {
         bool isTutorialActive = false;
 
-        if (type == BoosterType.Booster0 && !UseProfile.IsDoneBooster1.Value) isTutorialActive = true;
-        if (type == BoosterType.Booster1 && !UseProfile.IsDoneBooster2.Value) isTutorialActive = true;
-        if (type == BoosterType.Booster2 && !UseProfile.IsDoneBooster3.Value) isTutorialActive = true;
+        if (type == BoosterType.Booster0 && !UseProfile.IsDoneBooster0.Value) isTutorialActive = true;
+        if (type == BoosterType.Booster1 && !UseProfile.IsDoneBooster1.Value) isTutorialActive = true;
+        if (type == BoosterType.Booster2 && !UseProfile.IsDoneBooster2.Value) isTutorialActive = true;
 
         if (isTutorialActive)
         {
@@ -50,7 +50,7 @@ public partial class BoosterController
 
             if (type == BoosterType.Booster0)
             {
-                UseProfile.IsDoneBooster1.Value = true;
+                UseProfile.IsDoneBooster0.Value = true;
             }
         }
     }
@@ -59,7 +59,7 @@ public partial class BoosterController
     {
         int level = UseProfile.Level.Value;
 
-        if (type == BoosterType.Booster1 && level == 6 && !UseProfile.IsDoneBooster2.Value)
+        if (type == BoosterType.Booster1 && level == 6 && !UseProfile.IsDoneBooster1.Value)
         {
             // Transform targetObj = GamePlayController.Instance.gameScene.GetTutorialTarget();
             // if (targetObj != null)
@@ -71,9 +71,9 @@ public partial class BoosterController
 
     private void CompletePhase2Tutorial(BoosterType type)
     {
-        if (type == BoosterType.Booster1 && !UseProfile.IsDoneBooster2.Value)
+        if (type == BoosterType.Booster1 && !UseProfile.IsDoneBooster1.Value)
         {
-            UseProfile.IsDoneBooster2.Value = true;
+            UseProfile.IsDoneBooster1.Value = true;
             HandAnimation.Instance.KillObj();
         }
     }
@@ -82,16 +82,16 @@ public partial class BoosterController
     {
         int level = UseProfile.Level.Value;
 
-        if (type == BoosterType.Booster1 && level == 6 && !UseProfile.IsDoneBooster2.Value)
+        if (type == BoosterType.Booster1 && level == 6 && !UseProfile.IsDoneBooster1.Value)
+        {
+            HandAnimation.Instance.KillObj();
+            UseProfile.IsDoneBooster1.Value = true;
+        }
+
+        if (type == BoosterType.Booster2 && level == 9 && !UseProfile.IsDoneBooster2.Value)
         {
             HandAnimation.Instance.KillObj();
             UseProfile.IsDoneBooster2.Value = true;
-        }
-
-        if (type == BoosterType.Booster2 && level == 9 && !UseProfile.IsDoneBooster3.Value)
-        {
-            HandAnimation.Instance.KillObj();
-            UseProfile.IsDoneBooster3.Value = true;
         }
     }
 }

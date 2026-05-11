@@ -34,9 +34,9 @@ public class StringHelper
     public const string IS_BACK_LOBBY_OPTION = "IS_BACK_LOBBY_OPTION";
 
     // Done Tut booster 
-    public const string IS_DONE_TUT_BOOSTER_1 = "IS_DONE_TUT_BOOSTER_SWAP";
-    public const string IS_DONE_TUT_BOOSTER_2 = "IS_DONE_TUT_BOOSTER_PICK";
-    public const string IS_DONE_TUT_BOOSTER_3 = "IS_DONE_TUT_BOOSTER_FREEZE";
+    public const string IS_DONE_TUT_BOOSTER_0 = "IS_DONE_TUT_BOOSTER_SWAP";
+    public const string IS_DONE_TUT_BOOSTER_1 = "IS_DONE_TUT_BOOSTER_PICK";
+    public const string IS_DONE_TUT_BOOSTER_2 = "IS_DONE_TUT_BOOSTER_FREEZE";
     
     /// Remote Config Key
     public const string KEY_STARTING_COINS = "initial_coin";
