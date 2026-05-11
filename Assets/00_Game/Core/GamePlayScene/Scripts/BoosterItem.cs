@@ -29,6 +29,7 @@ public class BoosterItem : MonoBehaviour
     public BoosterType Type => type;
 
     public Button btnMain;
+    public Image iconBooster;
 
     [Header("State UI Containers")]
     [SerializeField] private GameObject unlockedContainer;
@@ -60,6 +61,11 @@ public class BoosterItem : MonoBehaviour
     private void OnDestroy()
     {
         CancelCooldownTask();
+    }
+
+    public void SetSize(float targetSize)
+    {
+        iconBooster.FitToTargetHeight(targetSize);
     }
     public void ChangeState(BoosterState newState)
     {

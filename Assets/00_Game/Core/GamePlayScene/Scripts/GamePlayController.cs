@@ -18,6 +18,7 @@ public class GamePlayController : LeaderSingleton<GamePlayController>
 
     private void Init()
     {
+        UseProfile.Level.Value  = 6;
         gameScene.Init();
         handAnimation.Init();
         boosterController.Init();

@@ -44,4 +44,6 @@ public class HighlightSystem : MonoBehaviour
     }
     HighlightRendererFeature.IsActive = false;
   }
+
+
 }

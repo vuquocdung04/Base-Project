@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HandAnimation : StaffSingleton<HandAnimation>
 {
@@ -10,7 +11,6 @@ public class HandAnimation : StaffSingleton<HandAnimation>
     public float scaleMultiplier = 1.2f;
     private Tween uiTween;
     private Tween objTween;
-
     private Vector3 defaultScale;
     public override void Init()
     {
@@ -25,7 +25,7 @@ public class HandAnimation : StaffSingleton<HandAnimation>
         PlayHandAnim(handUI, target, ref uiTween);
     }
 
-    public void PlayAnimObj(Transform target) 
+    public void PlayAnimObj(Transform target)
     {
         PlayHandAnim(handObj, target, ref objTween);
     }
@@ -63,4 +63,32 @@ public class HandAnimation : StaffSingleton<HandAnimation>
 
     public void KillUI() => StopHandAnim(handUI, ref uiTween);
     public void KillObj() => StopHandAnim(handObj, ref objTween);
+
+
+
+    public void HighlightUI(GameObject targetUI)
+    {
+        GameScene.EnableDarkPanel(true);
+        var targetCanvas = targetUI.AddComponent<Canvas>();
+        targetCanvas.overrideSorting = true;
+        targetCanvas.sortingLayerName = "UI";
+        targetCanvas.sortingOrder = 1;
+
+        targetUI.AddComponent<GraphicRaycaster>();
+    }
+    public void RemoveHighlightUI(GameObject targetUI)
+    {
+        GameScene.EnableDarkPanel(false);
+        GraphicRaycaster raycaster = targetUI.GetComponent<GraphicRaycaster>();
+        if (raycaster != null)
+        {
+            Destroy(raycaster);
+        }
+
+        Canvas targetCanvas = targetUI.GetComponent<Canvas>();
+        if (targetCanvas != null)
+        {
+            Destroy(targetCanvas);
+        }
+    }
 }

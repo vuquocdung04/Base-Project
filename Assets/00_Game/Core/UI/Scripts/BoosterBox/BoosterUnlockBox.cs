@@ -7,12 +7,25 @@ public class BoosterUnlockBox : BaseBox<BoosterUnlockBox>
     public Image imgBooster;
     public Button btnClaim;
 
+    public Transform txtHolder;
+    private BoosterItem _targetBoosterItem;
+
     protected override void Init()
     {
-        btnClaim.onClick.AddListener(() =>
+        btnClaim.OnClicked(OnClickedClaim);
+
+        int boosterIndex = BoosterController.Instance.GetCurrentTutorialBoosterIndex();
+
+        if (boosterIndex == -1) boosterIndex = 0;
+        _targetBoosterItem = BoosterController.Instance.GetBoosterItemByIndex(boosterIndex);
+        
+        var targetSize =  BoosterController.Instance.targetSize;
+        if (_targetBoosterItem != null)
         {
-            OnClickedClaim();
-        });
+            imgBooster.sprite = _targetBoosterItem.iconBooster.sprite;
+            imgBooster.FitToTargetHeight(targetSize);
+            imgBooster.transform.localScale = Vector3.one * 3f;
+        }
     }
 
     protected override void InitState()
@@ -22,15 +35,16 @@ public class BoosterUnlockBox : BaseBox<BoosterUnlockBox>
 
     private void OnClickedClaim()
     {
-        int currentLevel = UseProfile.Level.Value;
-        int[] unlocksBooster = new int[] { 1, 3, 6 };
-        int boosterIndex = System.Array.IndexOf(unlocksBooster, currentLevel);
+        btnClaim.SetActive(false);
+        txtHolder.gameObject.SetActive(false);
+        if (_targetBoosterItem == null)
+        {
+            Debug.LogError("Target Booster Item đang bị Null, không thể bay!");
+            Close();
+            return;
+        }
 
-        if (boosterIndex == -1) boosterIndex = 0;
-
-        BoosterItem targetBoosterItem = BoosterController.Instance.GetBoosterItemByIndex(boosterIndex);
-        RectTransform targetRect = targetBoosterItem.GetComponent<RectTransform>();
-
+        RectTransform targetRect = _targetBoosterItem.GetComponent<RectTransform>();
         var currentTimeAnim = 0f;
         var duration = 0.75f;
         RectTransform boosterRect = imgBooster.GetComponent<RectTransform>();
@@ -41,7 +55,7 @@ public class BoosterUnlockBox : BaseBox<BoosterUnlockBox>
             currentTimeAnim,
             imgBooster.transform.DOJump(
                 targetRect.position,
-                10,
+                3,
                 1,
                 duration
             )
@@ -49,7 +63,7 @@ public class BoosterUnlockBox : BaseBox<BoosterUnlockBox>
 
         seq.Insert(
             currentTimeAnim,
-            boosterRect.DOSizeDelta(targetRect.sizeDelta, duration)
+            imgBooster.transform.DOScale(Vector3.one, duration)
         );
 
         currentTimeAnim += duration;
@@ -59,8 +73,8 @@ public class BoosterUnlockBox : BaseBox<BoosterUnlockBox>
             () =>
             {
                 Close();
-                HandAnimation.Instance.PlayAnimUI(targetBoosterItem.transform);
-                HandAnimation.Instance.PlayAnimUI(targetRect);
+                HandAnimation.Instance.HighlightUI(_targetBoosterItem.gameObject);
+                HandAnimation.Instance.PlayAnimUI(_targetBoosterItem.transform);
             }
         );
     }
