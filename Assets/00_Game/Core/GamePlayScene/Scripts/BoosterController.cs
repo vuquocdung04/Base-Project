@@ -24,7 +24,16 @@ public partial class BoosterController : StaffSingleton<BoosterController>
         this.RemoveListener(EventID.BOOSTER_USE_REQUEST, OnBoosterUseRequest);
         this.RemoveListener(EventID.BOOSTER_CANCEL_REQUEST, OnBoosterCancelRequest);
     }
+    public BoosterItem GetBoosterItemByIndex(int index)
+    {
+        if (boosterItems != null && index >= 0 && index < boosterItems.Count)
+        {
+            return boosterItems[index];
+        }
 
+        Debug.LogError($"[BoosterController] Lỗi tìm Booster! Index {index} không hợp lệ.");
+        return null;
+    }
     private void CheckTutorialHighlight()
     {
         int currentLevel = UseProfile.Level.Value;
@@ -50,9 +59,8 @@ public partial class BoosterController : StaffSingleton<BoosterController>
 
         if (targetBooster != null)
         {
-            HighlightSystem.Instance.Highlight(targetBooster.gameObject);
-            HandAnimation.Instance.PlayAnimUI(targetBooster.transform);
-                
+            //HighlightSystem.Instance.Highlight(targetBooster.gameObject);
+
             Debug.LogError($"{targetBooster.gameObject.name}");
         }
     }
